@@ -95,7 +95,7 @@ int main(int argc, char** argv) {
     };
 
     std::vector<TestSize<1>> perf_sizes = {
-        {{1 << 20}}, {{1 << 24}}, {{1 << 26}}
+        {{1 << 20}}, {{1 << 24}}, {{1 << 26}}, {{1 << 30}}, {{1LL << 32}}
     };
 
     run_test_suite<1, ReduceTest>("Sum reduction", config, correctness_sizes, perf_sizes);

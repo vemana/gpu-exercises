@@ -111,7 +111,7 @@ int main(int argc, char** argv) {
     };
     
     std::vector<TestSize<1>> perf_sizes = {
-        {1048576}, {16777216}, {67108864}
+        {{1 << 20}}, {{1 << 24}}, {{1 << 26}}, {{1 << 30}}
     };
 
     run_test_suite<1, MapTest>("Exercise 01: Vector Addition", config, correctness_sizes, perf_sizes);
