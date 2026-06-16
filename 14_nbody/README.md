@@ -43,8 +43,8 @@ You will learn about:
 1. Open `kernel.cu`.
 2. Implement the `nbody_kernel` to compute the new velocities for `num_bodies` after a single time step `dt` using the supplied positions, masses, and initial velocities.
 3. Use shared memory to create a tiled implementation! Since every body interacts with every other body, you can load a tile of bodies into shared memory, compute interactions against that tile for your thread block, and then load the next tile.
-4. Implement `launch_nbody` to configure the grid and block dimensions, calculate occupancy metrics, and launch your kernel.
-5. Make sure `launch_nbody` returns the populated `LaunchMetrics` struct so the test framework can automatically display your kernel's hardware utilization.
+4. Implement `launch_nbody` to configure the grid and block dimensions, and launch your kernel.
+5. Make sure `launch_nbody` returns a `std::vector<LaunchConfig>` containing the configurations for all kernels launched so the test framework can automatically display your kernel's hardware utilization.
 6. Compile using `make` and run `./bin/run_test.sh` to evaluate your correctness and performance, and `./bin/run_profiler.sh` to identify bottlenecks.
 
 ## Typical Commands

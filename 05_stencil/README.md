@@ -41,8 +41,8 @@ You will learn about:
 ## What You Should Do
 1. Open `kernel.cu`.
 2. Implement the `stencil_kernel` to compute the 1D stencil over the input array `a` with a given `radius`, storing the result in `c`.
-3. Implement `launch_stencil` to configure the grid and block dimensions, dynamically allocate shared memory to hold the block's data plus the halo regions on both ends, calculate occupancy metrics, and launch your kernel.
-4. Make sure `launch_stencil` returns the populated `LaunchMetrics` struct so the test framework can automatically display your kernel's hardware utilization.
+3. Implement `launch_stencil` to configure the grid and block dimensions, dynamically allocate shared memory to hold the block's data plus the halo regions on both ends, and launch your kernel.
+4. Make sure `launch_stencil` returns a `std::vector<LaunchConfig>` containing the configurations for all kernels launched so the test framework can automatically display your kernel's hardware utilization.
 5. Compile using `make` and run `./bin/run_test.sh` to evaluate your correctness and performance, and `./bin/run_profiler.sh` to identify bottlenecks.
 
 ## Typical Commands

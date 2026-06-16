@@ -42,8 +42,8 @@ You will learn about:
 1. Open `kernel.cu`.
 2. Implement the `conv2d_kernel` to apply the 3x3 `filter` to the input image `a` and store the result in `c`. Make sure to handle boundaries correctly (pixels outside the image boundaries contribute 0).
 3. Try to use constant memory for the `filter` and shared memory for a tile of `a` to optimize performance!
-4. Implement `launch_conv2d` to configure the grid and block dimensions, calculate occupancy metrics, and launch your kernel.
-5. Make sure `launch_conv2d` returns the populated `LaunchMetrics` struct so the test framework can automatically display your kernel's hardware utilization.
+4. Implement `launch_conv2d` to configure the grid and block dimensions, and launch your kernel.
+5. Make sure `launch_conv2d` returns a `std::vector<LaunchConfig>` containing the configurations for all kernels launched so the test framework can automatically display your kernel's hardware utilization.
 6. Compile using `make` and run `./bin/run_test.sh` to evaluate your correctness and performance, and `./bin/run_profiler.sh` to identify bottlenecks.
 
 ## Typical Commands

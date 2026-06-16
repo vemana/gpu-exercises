@@ -44,8 +44,8 @@ You will learn about:
 1. Open `kernel.cu`.
 2. Implement the `gemm_kernel` to compute the matrix product `C = A * B` where `A`, `B`, and `C` are $N \times N$ matrices.
 3. Use shared memory tiling to optimize memory accesses. Load sub-tiles of `A` and `B` into shared memory, synchronize, and compute partial dot products.
-4. Implement `launch_gemm` to configure the 2D grid and block dimensions, dynamically allocate shared memory (if you didn't statically allocate it), calculate occupancy metrics, and launch your kernel.
-5. Make sure `launch_gemm` returns the populated `LaunchMetrics` struct so the test framework can automatically display your kernel's hardware utilization.
+4. Implement `launch_gemm` to configure the 2D grid and block dimensions, dynamically allocate shared memory (if you didn't statically allocate it), and launch your kernel.
+5. Make sure `launch_gemm` returns a `std::vector<LaunchConfig>` containing the configurations for all kernels launched so the test framework can automatically display your kernel's hardware utilization.
 6. Compile using `make` and run `./bin/run_test.sh` to evaluate your correctness and performance, and `./bin/run_profiler.sh` to identify bottlenecks.
 
 ## Typical Commands

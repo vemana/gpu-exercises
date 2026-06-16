@@ -41,8 +41,8 @@ You will learn about:
 ## What You Should Do
 1. Open `kernel.cu`.
 2. Implement the `reduce_kernel` using shared memory.
-3. Implement `launch_reduce` to configure the grid and block dimensions, dynamically allocate shared memory (if needed), calculate occupancy metrics, and launch your kernel.
-4. Make sure `launch_reduce` returns the populated `LaunchMetrics` struct so the test framework can automatically display your kernel's hardware utilization.
+3. Implement `launch_reduce` to configure the grid and block dimensions, dynamically allocate shared memory (if needed), and launch your kernel.
+4. Make sure `launch_reduce` returns a `std::vector<LaunchConfig>` containing the configurations for all kernels launched so the test framework can automatically display your kernel's hardware utilization.
 5. Compile using `make` and run `./bin/run_test.sh` to evaluate your correctness and performance, and `./bin/run_profiler.sh` to identify bottlenecks.
 
 ## Typical Commands

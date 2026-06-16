@@ -40,8 +40,8 @@ You will learn about:
 ## What You Should Do
 1. Open `kernel.cu`.
 2. Implement the `scan_kernel` to compute the exclusive prefix sum of array `a` into array `c`.
-3. Implement `launch_scan` to configure the grid and block dimensions, dynamically allocate shared memory (if needed), calculate occupancy metrics, and launch your kernel.
-4. Make sure `launch_scan` returns the populated `LaunchMetrics` struct so the test framework can automatically display your kernel's hardware utilization.
+3. Implement `launch_scan` to configure the grid and block dimensions, dynamically allocate shared memory (if needed), and launch your kernel.
+4. Make sure `launch_scan` returns a `std::vector<LaunchConfig>` containing the configurations for all kernels launched so the test framework can automatically display your kernel's hardware utilization.
 5. Compile using `make` and run `./bin/run_test.sh` to evaluate your correctness and performance, and `./bin/run_profiler.sh` to identify bottlenecks.
 
 ## Typical Commands

@@ -42,8 +42,8 @@ You will learn about:
 1. Open `kernel.cu`.
 2. Implement the `spmv_kernel` to compute `y = A * x` where `A` is represented by `values`, `col_indices`, and `row_offsets`.
 3. Try optimizing the naive approach! Can you assign a warp to each row instead of a single thread? This is called a "Warp-centric" or "Vector" SpMV algorithm.
-4. Implement `launch_spmv` to configure the grid and block dimensions, calculate occupancy metrics, and launch your kernel.
-5. Make sure `launch_spmv` returns the populated `LaunchMetrics` struct so the test framework can automatically display your kernel's hardware utilization.
+4. Implement `launch_spmv` to configure the grid and block dimensions, and launch your kernel.
+5. Make sure `launch_spmv` returns a `std::vector<LaunchConfig>` containing the configurations for all kernels launched so the test framework can automatically display your kernel's hardware utilization.
 6. Compile using `make` and run `./bin/run_test.sh` to evaluate your correctness and performance, and `./bin/run_profiler.sh` to identify bottlenecks.
 
 ## Typical Commands

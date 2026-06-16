@@ -43,7 +43,7 @@ You will learn about:
 1. Open `kernel.cu`.
 2. Implement the `bfs_kernel` to perform a single iteration (level) of BFS. It should look at nodes at the current level, check their neighbors, and update the neighbors' distances if they haven't been visited, signaling that a change occurred.
 3. Implement `launch_bfs` to initialize the source node's distance, and iteratively launch your kernel until no new distances are updated.
-4. Make sure `launch_bfs` returns the populated `LaunchMetrics` struct so the test framework can automatically display your kernel's hardware utilization.
+4. Make sure `launch_bfs` returns a `std::vector<LaunchConfig>` containing the configurations for all kernels launched so the test framework can automatically display your kernel's hardware utilization.
 5. Compile using `make` and run `./bin/run_test.sh` to evaluate your correctness and performance, and `./bin/run_profiler.sh` to identify bottlenecks.
 
 ## Typical Commands

@@ -42,8 +42,8 @@ You will learn about:
 ## What You Should Do
 1. Open `kernel.cu`.
 2. Implement the `merge_sort_kernel` (or a series of kernels) to sort the array `a` into `c`. You'll likely need ping-pong buffers as you iteratively merge larger and larger sorted runs.
-3. Implement `launch_merge_sort` to configure the grid and block dimensions, calculate occupancy metrics, and launch your kernels.
-4. Make sure `launch_merge_sort` returns the populated `LaunchMetrics` struct so the test framework can automatically display your kernel's hardware utilization.
+3. Implement `launch_merge_sort` to configure the grid and block dimensions, and launch your kernels.
+4. Make sure `launch_merge_sort` returns a `std::vector<LaunchConfig>` containing the configurations for all kernels launched so the test framework can automatically display your kernel's hardware utilization.
 5. Compile using `make` and run `./bin/run_test.sh` to evaluate your correctness and performance, and `./bin/run_profiler.sh` to identify bottlenecks.
 
 ## Typical Commands

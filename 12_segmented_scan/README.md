@@ -41,8 +41,8 @@ You will learn about:
 ## What You Should Do
 1. Open `kernel.cu`.
 2. Implement the `segmented_scan_kernel` (or a combination of kernels) to compute the inclusive prefix sum of array `a` into array `c`, resetting the sum whenever the corresponding element in `flags` is `1`.
-3. Implement `launch_segmented_scan` to configure the grid and block dimensions, calculate occupancy metrics, and return the final `LaunchMetrics`.
-4. Make sure `launch_segmented_scan` returns the populated `LaunchMetrics` struct so the test framework can automatically display your kernel's hardware utilization.
+3. Implement `launch_segmented_scan` to configure the grid and block dimensions, and return the final `LaunchMetrics`.
+4. Make sure `launch_segmented_scan` returns a `std::vector<LaunchConfig>` containing the configurations for all kernels launched so the test framework can automatically display your kernel's hardware utilization.
 5. Compile using `make` and run `./bin/run_test.sh` to evaluate your correctness and performance, and `./bin/run_profiler.sh` to identify bottlenecks.
 
 ## Typical Commands
