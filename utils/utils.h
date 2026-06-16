@@ -65,6 +65,7 @@ inline std::string format_with_commas(long long value) {
 
 template <typename T>
 inline void print_array(const std::string& name, const T* arr, long long size, int cols_per_row = 20) {
+    size = std::min(size, std::min(cols_per_row * 10LL, 250LL)); // Never print more than a small amount of data
     std::cout << "--- " << name << " ---" << std::endl;
     for (long long i = 0; i < size; ++i) {
         std::cout << std::setw(8) << arr[i] << " ";
