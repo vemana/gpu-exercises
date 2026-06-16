@@ -42,28 +42,33 @@ You will learn about:
 2. Implement the `scan_kernel` to compute the exclusive prefix sum of array `a` into array `c`.
 3. Implement `launch_scan` to configure the grid and block dimensions, dynamically allocate shared memory (if needed), calculate occupancy metrics, and launch your kernel.
 4. Make sure `launch_scan` returns the populated `LaunchMetrics` struct so the test framework can automatically display your kernel's hardware utilization.
-5. Compile using `make` and run `./bin/run_test` to see if you pass the correctness tests and how your performance compares to the reference implementation.
+5. Compile using `make` and run `./bin/run_test.sh` to evaluate your correctness and performance, and `./bin/run_profiler.sh` to identify bottlenecks.
 
 ## Typical Commands
-The test suite executable `./bin/run_test` supports various command line arguments to help you analyze and debug your kernel.
+The test suite executables in `./bin/` support various command line arguments to help you analyze and debug your kernel. You can use `./bin/run_test.sh` to run the kernel normally, or `./bin/run_profiler.sh` to run it under Nsight Compute for detailed profiling.
 
-- **Help Menu**:
+- **Help Menus**:
   ```bash
-  make && ./bin/run_test -h
+  make && ./bin/run_test.sh -h
+  make && ./bin/run_profiler.sh -h
   ```
 - **Test a Specific Size** (tests the predefined size closest to the given value, preferring the higher value in a tie):
   ```bash
-  make && ./bin/run_test --size 16777216
+  make && ./bin/run_test.sh --size 16777216
+  ```
+- **Profile Memory Metrics** (runs Nsight Compute with predefined metrics for memory-bound kernels):
+  ```bash
+  make && ./bin/run_profiler.sh --ncu_argset=memory --size 16777216
   ```
 - **Test Sizes Above a Threshold**:
   ```bash
-  make && ./bin/run_test --above 1048576
+  make && ./bin/run_test.sh --above 1048576
   ```
 - **Enable Verbose Tracing** (prints detailed setup and launch trace logs):
   ```bash
-  make && ./bin/run_test --verbose
+  make && ./bin/run_test.sh --verbose
   ```
 - **Run the Reference Kernel Only** (verifies correctness of the reference kernel without testing or benchmarking your implementation):
   ```bash
-  make && ./bin/run_test --test_ref_kernel_only
+  make && ./bin/run_test.sh --test_ref_kernel_only
   ```

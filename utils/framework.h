@@ -218,10 +218,15 @@ void run_test_suite(const std::string& name, const Config<D>& config,
     
     std::cout << "=== " << name << " ===" << std::endl;
 
-    run_correctness_tests<D, TestImpl>(config, correctness_sizes);
+    if (!config.skip_correctness_tests) {
+        run_correctness_tests<D, TestImpl>(config, correctness_sizes);
 
-    if (config.test_ref_kernel_only) {
-        std::cout << "Reference kernel correctness tested. Exiting early due to --test_ref_kernel_only flag." << std::endl;
+        if (config.test_ref_kernel_only) {
+            std::cout << "Reference kernel correctness tested. Exiting early due to --test_ref_kernel_only flag." << std::endl;
+            return;
+        }
+    } else if (config.test_ref_kernel_only) {
+        std::cout << "Warning: --skip_correctness_tests and --test_ref_kernel_only are mutually exclusive. Exiting." << std::endl;
         return;
     }
 

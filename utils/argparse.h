@@ -44,6 +44,7 @@ template <size_t D>
 struct Config {
     bool verbose = false;
     bool test_ref_kernel_only = false;
+    bool skip_correctness_tests = false;
     FilterMode mode = FilterMode::NONE;
     TestSize<D> filter_size;
 };
@@ -84,6 +85,7 @@ Config<D> parse_args(int argc, char** argv) {
                       << "  --size <size>           Run the smallest test_size that is >= <size>\n"
                       << "  --above <size>          Run all test_sizes that are >= <size>\n"
                       << "  --test_ref_kernel_only  Test reference kernel correctness only and exit\n"
+                      << "  --skip_correctness_tests Skip correctness tests and run performance benchmarks only\n"
                       << "  -h, --help              Show this help message\n\n"
                       << "For multi-dimensional tests, <size> should be a comma-separated list of dimensions (e.g., 1024,2048).\n";
             exit(0);
@@ -91,6 +93,8 @@ Config<D> parse_args(int argc, char** argv) {
             config.verbose = true;
         } else if (arg == "--test_ref_kernel_only") {
             config.test_ref_kernel_only = true;
+        } else if (arg == "--skip_correctness_tests") {
+            config.skip_correctness_tests = true;
         } else if (arg == "--size" || arg == "--above") {
             if (i + 1 >= argc) {
                 std::cerr << "Error: " << arg << " requires an argument.\n";
