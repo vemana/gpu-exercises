@@ -3,16 +3,16 @@
 #include "../utils/utils.h"
 #include "../utils/tracer.h"
 
-__global__ void radix_sort_kernel(const int* a, int* c, int size) {
+__global__ void radix_sort_kernel(const int* a, int* c, long long size) {
     // TODO: Implement radix sort
 }
 
-std::vector<LaunchConfig> launch_radix_sort(const int* a, int* c, int size) {
+std::vector<LaunchConfig> launch_radix_sort(const int* a, int* c, long long size) {
     global_tracer.trace("Entering launch_radix_sort (Student)");
 
     // TODO: Define grid and block dimensions
     int threadsPerBlock = 256;
-    int blocksPerGrid = (size + threadsPerBlock - 1) / threadsPerBlock;
+    long long blocksPerGrid = (size + threadsPerBlock - 1) / threadsPerBlock;
 
     global_tracer.trace("Launching radix_sort_kernel (Student)");
     // radix_sort_kernel<<<blocksPerGrid, threadsPerBlock>>>(a, c, size);

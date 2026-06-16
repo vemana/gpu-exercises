@@ -26,7 +26,7 @@ struct SegmentedScanOp {
     }
 };
 
-std::vector<LaunchConfig> launch_reference_segmented_scan(const float* a, const int* flags, float* c, int size) {
+std::vector<LaunchConfig> launch_reference_segmented_scan(const float* a, const int* flags, float* c, long long size) {
     global_tracer.trace("Entering launch_reference_segmented_scan");
     
     thrust::device_ptr<const float> dev_a(a);

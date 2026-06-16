@@ -3,11 +3,11 @@
 #include "../utils/utils.h"
 #include "../utils/tracer.h"
 
-__global__ void conv2d_kernel(const float* a, const float* filter, float* c, int width, int height) {
+__global__ void conv2d_kernel(const float* a, const float* filter, float* c, long long width, long long height) {
     // TODO: Implement 2D convolution
 }
 
-std::vector<LaunchConfig> launch_conv2d(const float* a, const float* filter, float* c, int width, int height) {
+std::vector<LaunchConfig> launch_conv2d(const float* a, const float* filter, float* c, long long width, long long height) {
     global_tracer.trace("Entering launch_conv2d (Student)");
 
     // TODO: Define grid and block dimensions
@@ -18,5 +18,5 @@ std::vector<LaunchConfig> launch_conv2d(const float* a, const float* filter, flo
     // conv2d_kernel<<<blocksPerGrid, threadsPerBlock>>>(a, filter, c, width, height);
 
     global_tracer.trace("Exiting launch_conv2d (Student)");
-    return {{"conv2d_kernel", (const void*)conv2d_kernel, static_cast<int>(blocksPerGrid.x * blocksPerGrid.y * blocksPerGrid.z), static_cast<int>(threadsPerBlock.x * threadsPerBlock.y * threadsPerBlock.z), 0}};
+    return {{"conv2d_kernel", (const void*)conv2d_kernel, static_cast<long long>(blocksPerGrid.x * blocksPerGrid.y * blocksPerGrid.z), static_cast<int>(threadsPerBlock.x * threadsPerBlock.y * threadsPerBlock.z), 0}};
 }

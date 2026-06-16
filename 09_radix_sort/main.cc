@@ -10,8 +10,8 @@
 #include "kernel.h"
 #include "reference_kernel.h"
 
-void cpu_baseline(const int* a, int* c, int size) {
-    for (int i = 0; i < size; ++i) {
+void cpu_baseline(const int* a, int* c, long long size) {
+    for (long long i = 0; i < size; ++i) {
         c[i] = a[i];
     }
     std::sort(c, c + size);
@@ -28,7 +28,7 @@ struct RadixSortTest : public ProblemTest<1> {
     RadixSortTest(const TestSize<1>& size) : ProblemTest<1>(size) {}
 
     void generate_test_data(bool check) override {
-        int n = size.dims[0];
+        long long n = size.dims[0];
         h_a.resize(n);
         h_c.assign(n, 0);
         h_c_ref.assign(n, 0);
@@ -36,14 +36,14 @@ struct RadixSortTest : public ProblemTest<1> {
         std::mt19937 gen(42);
         // Using positive integers for simpler radix sort implementation
         std::uniform_int_distribution<int> dist(0, 1000000);
-        for (int i = 0; i < n; ++i) {
+        for (long long i = 0; i < n; ++i) {
             h_a[i] = dist(gen);
         }
         if (check) cpu_baseline(h_a.data(), h_c_ref.data(), n);
     }
 
     void setup_reference() override {
-        int n = size.dims[0];
+        long long n = size.dims[0];
         cudaMalloc(&d_a, n * sizeof(int));
         cudaMalloc(&d_c, n * sizeof(int));
         
@@ -56,7 +56,7 @@ struct RadixSortTest : public ProblemTest<1> {
     }
 
     void setup_student() override {
-        int n = size.dims[0];
+        long long n = size.dims[0];
         cudaMalloc(&d_a, n * sizeof(int));
         cudaMalloc(&d_c, n * sizeof(int));
         
@@ -69,24 +69,16 @@ struct RadixSortTest : public ProblemTest<1> {
     }
 
     CorrectnessResult verify() override {
-        int n = size.dims[0];
+        long long n = size.dims[0];
         cudaMemcpy(h_c.data(), d_c, n * sizeof(int), cudaMemcpyDeviceToHost);
         return check_correctness(h_c_ref.data(), h_c.data(), n, 0);
     }
 
     void print_mismatch() override {
-        int n = size.dims[0];
-        std::cout << "\n--- Expected Output (First 10) ---\n";
-        for (int i = 0; i < std::min(n, 10); ++i) {
-            std::cout << std::setw(10) << h_c_ref[i];
-            if ((i + 1) % 10 == 0) std::cout << "\n";
-        }
-        std::cout << "\n--- Actual Output (First 10) ---\n";
-        for (int i = 0; i < std::min(n, 10); ++i) {
-            std::cout << std::setw(10) << h_c[i];
-            if ((i + 1) % 10 == 0) std::cout << "\n";
-        }
-        std::cout << "\n";
+        long long n = size.dims[0];
+        print_array("Input (a)", h_a.data(), n);
+        print_array("Expected Output", h_c_ref.data(), n);
+        print_array("Actual Output", h_c.data(), n);
     }
 
     double get_bandwidth_bytes() override {

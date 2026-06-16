@@ -10,13 +10,13 @@
 
 struct CorrectnessResult {
     bool passed;
-    int error_index;
+    long long error_index;
     float expected_val;
     float actual_val;
 };
 
-inline CorrectnessResult check_correctness(const float* expected, const float* actual, int size, float tolerance = 1e-1) {
-    for (int i = 0; i < size; ++i) {
+inline CorrectnessResult check_correctness(const float* expected, const float* actual, long long size, float tolerance = 1e-1) {
+    for (long long i = 0; i < size; ++i) {
         float diff = std::abs((float)expected[i] - (float)actual[i]);
         if (diff > tolerance) {
             return {false, i, (float)expected[i], (float)actual[i]};
@@ -25,8 +25,8 @@ inline CorrectnessResult check_correctness(const float* expected, const float* a
     return {true, -1, 0.0f, 0.0f};
 }
 
-inline CorrectnessResult check_correctness(const int* expected, const int* actual, int size, int tolerance = 0) {
-    for (int i = 0; i < size; ++i) {
+inline CorrectnessResult check_correctness(const int* expected, const int* actual, long long size, int tolerance = 0) {
+    for (long long i = 0; i < size; ++i) {
         int diff = std::abs(expected[i] - actual[i]);
         if (diff > tolerance) {
             return {false, i, (float)expected[i], (float)actual[i]};
@@ -64,9 +64,9 @@ inline std::string format_with_commas(long long value) {
 }
 
 template <typename T>
-inline void print_array(const std::string& name, const T* arr, int size, int cols_per_row = 20) {
+inline void print_array(const std::string& name, const T* arr, long long size, int cols_per_row = 20) {
     std::cout << "--- " << name << " ---" << std::endl;
-    for (int i = 0; i < size; ++i) {
+    for (long long i = 0; i < size; ++i) {
         std::cout << std::setw(8) << arr[i] << " ";
         if ((i + 1) % cols_per_row == 0) {
             std::cout << std::endl;
@@ -106,7 +106,7 @@ struct OccupancyMetrics {
 struct LaunchConfig {
     std::string kernel_name;
     const void* kernel_func;
-    int blocksPerGrid;
+    long long blocksPerGrid;
     int threadsPerBlock;
     size_t dynamicSmemBytes;
 };
@@ -164,7 +164,7 @@ inline OccupancyMetrics calculate_occupancy(const void* kernel_func, int block_s
     return m;
 }
 
-inline void print_occupancy(const char* label, const OccupancyMetrics& m, const std::string& problem_size_str, int grid_size) {
+inline void print_occupancy(const char* label, const OccupancyMetrics& m, const std::string& problem_size_str, long long grid_size) {
     if (m.is_dummy) return;
     
     global_tracer.trace(std::string("Querying occupancy for ") + label);

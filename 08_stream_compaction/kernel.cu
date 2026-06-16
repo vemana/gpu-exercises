@@ -3,16 +3,16 @@
 #include "../utils/tracer.h"
 #include <vector>
 
-__global__ void compaction_kernel(const int* a, int* c, int* count, int size) {
+__global__ void compaction_kernel(const int* a, int* c, int* count, long long size) {
     // TODO: Implement stream compaction
 }
 
-std::vector<LaunchConfig> launch_compaction(const int* a, int* c, int* count, int size) {
+std::vector<LaunchConfig> launch_compaction(const int* a, int* c, int* count, long long size) {
     global_tracer.trace("Entering launch_compaction (Student)");
     
     // TODO: Define grid and block dimensions
     int threadsPerBlock = 256;
-    int blocksPerGrid = (size + threadsPerBlock - 1) / threadsPerBlock;
+    long long blocksPerGrid = (size + threadsPerBlock - 1) / threadsPerBlock;
     
     global_tracer.trace("Launching compaction_kernel (Student)");
     // compaction_kernel<<<blocksPerGrid, threadsPerBlock>>>(a, c, count, size);

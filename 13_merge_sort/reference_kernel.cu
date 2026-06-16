@@ -7,7 +7,7 @@
 #include "../utils/utils.h"
 #include "../utils/tracer.h"
 
-std::vector<LaunchConfig> launch_reference_merge_sort(const int* a, int* c, int size) {
+std::vector<LaunchConfig> launch_reference_merge_sort(const int* a, int* c, long long size) {
     global_tracer.trace("Entering launch_reference_merge_sort");
     
     thrust::device_ptr<const int> dev_a(a);

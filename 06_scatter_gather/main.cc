@@ -10,8 +10,8 @@
 #include "kernel.h"
 #include "reference_kernel.h"
 
-void cpu_baseline(const float* source, float* dest, const int* indices, int size) {
-    for (int i = 0; i < size; ++i) {
+void cpu_baseline(const float* source, float* dest, const int* indices, long long size) {
+    for (long long i = 0; i < size; ++i) {
         dest[i] = source[indices[i]]; // Gather
     }
 }
@@ -29,7 +29,7 @@ struct GatherTest : public ProblemTest<1> {
     GatherTest(const TestSize<1>& size) : ProblemTest<1>(size) {}
 
     void generate_test_data(bool check) override {
-        int n = size.dims[0];
+        long long n = size.dims[0];
         h_source.resize(n);
         h_dest.assign(n, 0.0f);
         h_dest_ref.assign(n, 0.0f);
@@ -37,7 +37,7 @@ struct GatherTest : public ProblemTest<1> {
 
         std::mt19937 gen(42);
         std::uniform_real_distribution<float> dist(0.0f, 100.0f);
-        for (int i = 0; i < n; ++i) {
+        for (long long i = 0; i < n; ++i) {
             h_source[i] = dist(gen);
             h_indices[i] = i;
         }
@@ -47,7 +47,7 @@ struct GatherTest : public ProblemTest<1> {
     }
 
     void setup_reference() override {
-        int n = size.dims[0];
+        long long n = size.dims[0];
         cudaMalloc(&d_source, n * sizeof(float));
         cudaMalloc(&d_dest, n * sizeof(float));
         cudaMalloc(&d_indices, n * sizeof(int));
@@ -62,7 +62,7 @@ struct GatherTest : public ProblemTest<1> {
     }
 
     void setup_student() override {
-        int n = size.dims[0];
+        long long n = size.dims[0];
         cudaMalloc(&d_source, n * sizeof(float));
         cudaMalloc(&d_dest, n * sizeof(float));
         cudaMalloc(&d_indices, n * sizeof(int));
@@ -82,17 +82,10 @@ struct GatherTest : public ProblemTest<1> {
     }
 
     void print_mismatch() override {
-        std::cout << "\n--- Expected Output ---\n";
-        for (int i = 0; i < std::min(size.dims[0], 10LL); ++i) {
-            std::cout << std::fixed << std::setprecision(2) << std::setw(8) << h_dest_ref[i];
-            if ((i + 1) % 10 == 0) std::cout << "\n";
-        }
-        std::cout << "\n--- Actual Output ---\n";
-        for (int i = 0; i < std::min(size.dims[0], 10LL); ++i) {
-            std::cout << std::fixed << std::setprecision(2) << std::setw(8) << h_dest[i];
-            if ((i + 1) % 10 == 0) std::cout << "\n";
-        }
-        std::cout << "\n";
+        print_array("Source", h_source.data(), size.dims[0]);
+        print_array("Indices", h_indices.data(), size.dims[0]);
+        print_array("Expected Output", h_dest_ref.data(), size.dims[0]);
+        print_array("Actual Output", h_dest.data(), size.dims[0]);
     }
 
     double get_bandwidth_bytes() override {

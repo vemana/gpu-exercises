@@ -9,8 +9,8 @@
 #include "kernel.h"
 #include "reference_kernel.h"
 
-void cpu_baseline(const int* a, int* bins, int size, int num_bins) {
-    for (int i = 0; i < size; ++i) {
+void cpu_baseline(const int* a, int* bins, long long size, int num_bins) {
+    for (long long i = 0; i < size; ++i) {
         if (a[i] >= 0 && a[i] < num_bins) {
             bins[a[i]]++;
         }
@@ -29,21 +29,21 @@ struct HistogramTest : public ProblemTest<1> {
     HistogramTest(const TestSize<1>& size) : ProblemTest<1>(size) {}
 
     void generate_test_data(bool check) override {
-        int n = size.dims[0];
+        long long n = size.dims[0];
         h_a.resize(n);
         h_bins.assign(num_bins, 0);
         h_bins_ref.assign(num_bins, 0);
 
         std::mt19937 gen(42);
         std::uniform_int_distribution<int> dist(0, num_bins - 1);
-        for (int i = 0; i < n; ++i) {
+        for (long long i = 0; i < n; ++i) {
             h_a[i] = dist(gen);
         }
         if (check) cpu_baseline(h_a.data(), h_bins_ref.data(), n, num_bins);
     }
 
     void setup_reference() override {
-        int n = size.dims[0];
+        long long n = size.dims[0];
         cudaMalloc(&d_a, n * sizeof(int));
         cudaMalloc(&d_bins, num_bins * sizeof(int));
         cudaMemcpy(d_a, h_a.data(), n * sizeof(int), cudaMemcpyHostToDevice);
@@ -55,7 +55,7 @@ struct HistogramTest : public ProblemTest<1> {
     }
 
     void setup_student() override {
-        int n = size.dims[0];
+        long long n = size.dims[0];
         cudaMalloc(&d_a, n * sizeof(int));
         cudaMalloc(&d_bins, num_bins * sizeof(int));
         cudaMemcpy(d_a, h_a.data(), n * sizeof(int), cudaMemcpyHostToDevice);
@@ -72,17 +72,9 @@ struct HistogramTest : public ProblemTest<1> {
     }
 
     void print_mismatch() override {
-        std::cout << "\n--- Expected Output ---\n";
-        for (int i = 0; i < std::min(num_bins, 10); ++i) {
-            std::cout << std::setw(8) << h_bins_ref[i];
-            if ((i + 1) % 10 == 0) std::cout << "\n";
-        }
-        std::cout << "\n--- Actual Output ---\n";
-        for (int i = 0; i < std::min(num_bins, 10); ++i) {
-            std::cout << std::setw(8) << h_bins[i];
-            if ((i + 1) % 10 == 0) std::cout << "\n";
-        }
-        std::cout << "\n";
+        print_array("Input (a)", h_a.data(), size.dims[0]);
+        print_array("Expected Output", h_bins_ref.data(), num_bins);
+        print_array("Actual Output", h_bins.data(), num_bins);
     }
 
     double get_bandwidth_bytes() override {

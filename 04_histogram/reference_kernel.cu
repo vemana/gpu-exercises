@@ -5,7 +5,7 @@
 #include "../utils/tracer.h"
 #include <vector>
 
-std::vector<LaunchConfig> launch_reference_histogram(const int* a, int* bins, int size, int num_bins) {
+std::vector<LaunchConfig> launch_reference_histogram(const int* a, int* bins, long long size, int num_bins) {
     global_tracer.trace("Entering launch_reference_histogram");
     
     void *d_temp_storage = NULL;

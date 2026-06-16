@@ -11,9 +11,9 @@
 
 Tracer global_tracer(true);
 
-void cpu_baseline(const float* a, float* c, int size) {
+void cpu_baseline(const float* a, float* c, long long size) {
     float sum = 0.0f;
-    for (int i = 0; i < size; ++i) {
+    for (long long i = 0; i < size; ++i) {
         sum += a[i];
     }
     c[0] = sum;
@@ -29,14 +29,14 @@ struct ReduceTest : public ProblemTest<1> {
     ReduceTest(const TestSize<1>& size) : ProblemTest<1>(size) {}
 
     void generate_test_data(bool check) override {
-        int n = size.dims[0];
+        long long n = size.dims[0];
         h_a.resize(n);
         h_c.resize(1, 0.0f);
         h_c_ref_cpu.resize(1, 0.0f);
 
         std::mt19937 gen(42);
         std::uniform_real_distribution<float> dist(0.0f, 1.0f);
-        for (int i = 0; i < n; ++i) {
+        for (long long i = 0; i < n; ++i) {
             h_a[i] = dist(gen);
         }
 

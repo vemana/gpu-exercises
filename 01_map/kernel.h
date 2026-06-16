@@ -2,4 +2,4 @@
 #include <vector>
 #include "../utils/utils.h"
 
-std::vector<LaunchConfig> launch_map(const float* a, const float* b, float* c, int size);
+std::vector<LaunchConfig> launch_map(const float* a, const float* b, float* c, long long size);

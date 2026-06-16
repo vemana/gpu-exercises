@@ -9,9 +9,9 @@
 #include "kernel.h"
 #include "reference_kernel.h"
 
-void cpu_baseline(const float* a, const int* flags, float* c, int size) {
+void cpu_baseline(const float* a, const int* flags, float* c, long long size) {
     float current_sum = 0.0f;
-    for (int i = 0; i < size; ++i) {
+    for (long long i = 0; i < size; ++i) {
         if (flags[i] == 1) {
             current_sum = 0.0f;
         }
@@ -33,7 +33,7 @@ struct SegmentedScanTest : public ProblemTest<1> {
     SegmentedScanTest(const TestSize<1>& size) : ProblemTest<1>(size) {}
 
     void generate_test_data(bool check) override {
-        int n = size.dims[0];
+        long long n = size.dims[0];
         h_a.resize(n);
         h_flags.resize(n);
         h_c.assign(n, 0.0f);
@@ -43,7 +43,7 @@ struct SegmentedScanTest : public ProblemTest<1> {
         std::uniform_real_distribution<float> dist(0.0f, 10.0f);
         std::uniform_real_distribution<float> flag_prob(0.0f, 1.0f);
         
-        for (int i = 0; i < n; ++i) {
+        for (long long i = 0; i < n; ++i) {
             h_a[i] = dist(gen);
             // 10% chance to start a new segment, but first element is always start
             if (i == 0 || flag_prob(gen) < 0.1f) {
@@ -56,7 +56,7 @@ struct SegmentedScanTest : public ProblemTest<1> {
     }
 
     void setup_reference() override {
-        int n = size.dims[0];
+        long long n = size.dims[0];
         cudaMalloc(&d_a, n * sizeof(float));
         cudaMalloc(&d_flags, n * sizeof(int));
         cudaMalloc(&d_c, n * sizeof(float));
@@ -71,7 +71,7 @@ struct SegmentedScanTest : public ProblemTest<1> {
     }
 
     void setup_student() override {
-        int n = size.dims[0];
+        long long n = size.dims[0];
         cudaMalloc(&d_a, n * sizeof(float));
         cudaMalloc(&d_flags, n * sizeof(int));
         cudaMalloc(&d_c, n * sizeof(float));
@@ -86,24 +86,17 @@ struct SegmentedScanTest : public ProblemTest<1> {
     }
 
     CorrectnessResult verify() override {
-        int n = size.dims[0];
+        long long n = size.dims[0];
         cudaMemcpy(h_c.data(), d_c, n * sizeof(float), cudaMemcpyDeviceToHost);
         return check_correctness(h_c_ref.data(), h_c.data(), n, 1e-2f);
     }
 
     void print_mismatch() override {
-        int n = size.dims[0];
-        std::cout << "\n--- Expected Output (First 10) ---\n";
-        for (int i = 0; i < std::min(n, 10); ++i) {
-            std::cout << std::fixed << std::setprecision(2) << std::setw(8) << h_c_ref[i];
-            if ((i + 1) % 10 == 0) std::cout << "\n";
-        }
-        std::cout << "\n--- Actual Output (First 10) ---\n";
-        for (int i = 0; i < std::min(n, 10); ++i) {
-            std::cout << std::fixed << std::setprecision(2) << std::setw(8) << h_c[i];
-            if ((i + 1) % 10 == 0) std::cout << "\n";
-        }
-        std::cout << "\n";
+        long long n = size.dims[0];
+        print_array("Input (a)", h_a.data(), n);
+        print_array("Input (flags)", h_flags.data(), n);
+        print_array("Expected Output", h_c_ref.data(), n);
+        print_array("Actual Output", h_c.data(), n);
     }
 
     double get_bandwidth_bytes() override {

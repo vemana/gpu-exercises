@@ -40,7 +40,7 @@ You will learn about:
 ## What You Should Do
 1. Open `kernel.cu`.
 2. Implement the `compaction_kernel` (or a combination of kernels) to filter the array `a` such that only elements `> 0` are kept, writing them contiguously to `c`, and writing the total valid count to `count`.
-3. Implement `launch_compaction` to launch the necessary sequence of kernels (e.g., predicate generation, scan, scatter), and return the final `LaunchMetrics`.
+3. Implement `launch_compaction` to launch the necessary sequence of kernels (e.g., predicate generation, scan, scatter), and return the final `std::vector<LaunchConfig>`.
 4. Make sure `launch_compaction` returns a `std::vector<LaunchConfig>` containing the configurations for all kernels launched so the test framework can automatically display your kernel's hardware utilization.
 5. Compile using `make` and run `./bin/run_test.sh` to evaluate your correctness and performance, and `./bin/run_profiler.sh` to identify bottlenecks.
 

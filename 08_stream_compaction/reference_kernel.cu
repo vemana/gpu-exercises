@@ -12,7 +12,7 @@ struct is_positive {
     }
 };
 
-std::vector<LaunchConfig> launch_reference_compaction(const int* a, int* c, int* count, int size) {
+std::vector<LaunchConfig> launch_reference_compaction(const int* a, int* c, int* count, long long size) {
     global_tracer.trace("Entering launch_reference_compaction");
     
     thrust::device_ptr<const int> dev_a(a);

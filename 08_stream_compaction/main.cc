@@ -9,9 +9,9 @@
 #include "kernel.h"
 #include "reference_kernel.h"
 
-void cpu_baseline(const int* a, int* c, int* count, int size) {
+void cpu_baseline(const int* a, int* c, int* count, long long size) {
     int valid_count = 0;
-    for (int i = 0; i < size; ++i) {
+    for (long long i = 0; i < size; ++i) {
         if (a[i] > 0) {
             c[valid_count++] = a[i];
         }
@@ -33,21 +33,21 @@ struct StreamCompactionTest : public ProblemTest<1> {
     StreamCompactionTest(const TestSize<1>& size) : ProblemTest<1>(size) {}
 
     void generate_test_data(bool check) override {
-        int n = size.dims[0];
+        long long n = size.dims[0];
         h_a.resize(n);
         h_c.assign(n, 0);
         h_c_ref.assign(n, 0);
 
         std::mt19937 gen(42);
         std::uniform_int_distribution<int> dist(-50, 50);
-        for (int i = 0; i < n; ++i) {
+        for (long long i = 0; i < n; ++i) {
             h_a[i] = dist(gen);
         }
         if (check) cpu_baseline(h_a.data(), h_c_ref.data(), &h_count_ref, n);
     }
 
     void setup_reference() override {
-        int n = size.dims[0];
+        long long n = size.dims[0];
         cudaMalloc(&d_a, n * sizeof(int));
         cudaMalloc(&d_c, n * sizeof(int));
         cudaMalloc(&d_count, sizeof(int));
@@ -62,7 +62,7 @@ struct StreamCompactionTest : public ProblemTest<1> {
     }
 
     void setup_student() override {
-        int n = size.dims[0];
+        long long n = size.dims[0];
         cudaMalloc(&d_a, n * sizeof(int));
         cudaMalloc(&d_c, n * sizeof(int));
         cudaMalloc(&d_count, sizeof(int));
@@ -90,18 +90,9 @@ struct StreamCompactionTest : public ProblemTest<1> {
     void print_mismatch() override {
         std::cout << "\nExpected Count: " << h_count_ref << "\n";
         std::cout << "Actual Count:   " << h_count << "\n";
-        
-        std::cout << "\n--- Expected Output (First 10) ---\n";
-        for (int i = 0; i < std::min(h_count_ref, 10); ++i) {
-            std::cout << std::setw(8) << h_c_ref[i];
-            if ((i + 1) % 10 == 0) std::cout << "\n";
-        }
-        std::cout << "\n--- Actual Output (First 10) ---\n";
-        for (int i = 0; i < std::min(h_count, 10); ++i) {
-            std::cout << std::setw(8) << h_c[i];
-            if ((i + 1) % 10 == 0) std::cout << "\n";
-        }
-        std::cout << "\n";
+        print_array("Input (a)", h_a.data(), size.dims[0]);
+        print_array("Expected Output", h_c_ref.data(), h_count_ref);
+        print_array("Actual Output", h_c.data(), h_count);
     }
 
     double get_bandwidth_bytes() override {

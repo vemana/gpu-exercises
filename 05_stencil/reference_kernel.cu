@@ -4,7 +4,7 @@
 #include "../utils/utils.h"
 #include "../utils/tracer.h"
 
-__global__ void reference_stencil_kernel(const float* a, float* c, int size, int radius) {
+__global__ void reference_stencil_kernel(const float* a, float* c, long long size, int radius) {
     extern __shared__ float sdata[];
     
     int tid = threadIdx.x;
@@ -39,10 +39,10 @@ __global__ void reference_stencil_kernel(const float* a, float* c, int size, int
     }
 }
 
-std::vector<LaunchConfig> launch_reference_stencil(const float* a, float* c, int size, int radius) {
+std::vector<LaunchConfig> launch_reference_stencil(const float* a, float* c, long long size, int radius) {
     global_tracer.trace("Entering launch_reference_stencil");
     int threadsPerBlock = 256;
-    int blocksPerGrid = (size + threadsPerBlock - 1) / threadsPerBlock;
+    long long blocksPerGrid = (size + threadsPerBlock - 1) / threadsPerBlock;
     
     size_t smemSize = (threadsPerBlock + 2 * radius) * sizeof(float);
     

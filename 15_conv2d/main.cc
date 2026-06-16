@@ -9,11 +9,11 @@
 #include "kernel.h"
 #include "reference_kernel.h"
 
-void cpu_baseline(const float* a, const float* filter, float* c, int width, int height) {
+void cpu_baseline(const float* a, const float* filter, float* c, long long width, long long height) {
     int filter_size = 3;
     int offset = filter_size / 2;
-    for (int y = 0; y < height; ++y) {
-        for (int x = 0; x < width; ++x) {
+    for (long long y = 0; y < height; ++y) {
+        for (long long x = 0; x < width; ++x) {
             float sum = 0.0f;
             for (int fy = -offset; fy <= offset; ++fy) {
                 for (int fx = -offset; fx <= offset; ++fx) {
@@ -44,9 +44,9 @@ struct Conv2DTest : public ProblemTest<2> {
     Conv2DTest(const TestSize<2>& size) : ProblemTest<2>(size) {}
 
     void generate_test_data(bool check) override {
-        int width = size.dims[0];
-        int height = size.dims[1];
-        int n = width * height;
+        long long width = size.dims[0];
+        long long height = size.dims[1];
+        long long n = width * height;
         h_a.resize(n);
         h_filter.resize(9);
         h_c.assign(n, 0.0f);
@@ -55,10 +55,10 @@ struct Conv2DTest : public ProblemTest<2> {
         std::mt19937 gen(42);
         std::uniform_real_distribution<float> dist(-10.0f, 10.0f);
         
-        for (int i = 0; i < n; ++i) {
+        for (long long i = 0; i < n; ++i) {
             h_a[i] = dist(gen);
         }
-        for (int i = 0; i < 9; ++i) {
+        for (long long i = 0; i < 9; ++i) {
             h_filter[i] = dist(gen);
         }
         
@@ -66,9 +66,9 @@ struct Conv2DTest : public ProblemTest<2> {
     }
 
     void setup_reference() override {
-        int width = size.dims[0];
-        int height = size.dims[1];
-        int n = width * height;
+        long long width = size.dims[0];
+        long long height = size.dims[1];
+        long long n = width * height;
         cudaMalloc(&d_a, n * sizeof(float));
         cudaMalloc(&d_filter, 9 * sizeof(float));
         cudaMalloc(&d_c, n * sizeof(float));
@@ -83,9 +83,9 @@ struct Conv2DTest : public ProblemTest<2> {
     }
 
     void setup_student() override {
-        int width = size.dims[0];
-        int height = size.dims[1];
-        int n = width * height;
+        long long width = size.dims[0];
+        long long height = size.dims[1];
+        long long n = width * height;
         cudaMalloc(&d_a, n * sizeof(float));
         cudaMalloc(&d_filter, 9 * sizeof(float));
         cudaMalloc(&d_c, n * sizeof(float));
@@ -100,34 +100,27 @@ struct Conv2DTest : public ProblemTest<2> {
     }
 
     CorrectnessResult verify() override {
-        int width = size.dims[0];
-        int height = size.dims[1];
-        int n = width * height;
+        long long width = size.dims[0];
+        long long height = size.dims[1];
+        long long n = width * height;
         cudaMemcpy(h_c.data(), d_c, n * sizeof(float), cudaMemcpyDeviceToHost);
         return check_correctness(h_c_ref.data(), h_c.data(), n, 1e-2f);
     }
 
     void print_mismatch() override {
-        int width = size.dims[0];
-        int height = size.dims[1];
-        int n = width * height;
-        std::cout << "\n--- Expected Output (First 10) ---\n";
-        for (int i = 0; i < std::min(n, 10); ++i) {
-            std::cout << std::fixed << std::setprecision(2) << std::setw(8) << h_c_ref[i];
-            if ((i + 1) % 10 == 0) std::cout << "\n";
-        }
-        std::cout << "\n--- Actual Output (First 10) ---\n";
-        for (int i = 0; i < std::min(n, 10); ++i) {
-            std::cout << std::fixed << std::setprecision(2) << std::setw(8) << h_c[i];
-            if ((i + 1) % 10 == 0) std::cout << "\n";
-        }
-        std::cout << "\n";
+        long long width = size.dims[0];
+        long long height = size.dims[1];
+        long long n = width * height;
+        print_array("Input (a)", h_a.data(), n);
+        print_array("Filter", h_filter.data(), 9);
+        print_array("Expected Output", h_c_ref.data(), n);
+        print_array("Actual Output", h_c.data(), n);
     }
 
     double get_bandwidth_bytes() override {
-        int width = size.dims[0];
-        int height = size.dims[1];
-        int n = width * height;
+        long long width = size.dims[0];
+        long long height = size.dims[1];
+        long long n = width * height;
         // Ideally reads a pixel once, writes a pixel once. Filter read is tiny.
         return 2.0 * n * sizeof(float);
     }

@@ -2,11 +2,11 @@
 #include "../utils/utils.h"
 #include "../utils/tracer.h"
 
-__global__ void gemm_kernel(const float* a, const float* b, float* c, int n) {
+__global__ void gemm_kernel(const float* a, const float* b, float* c, long long n) {
     // TODO: Implement tiled matrix multiplication using shared memory
 }
 
-std::vector<LaunchConfig> launch_gemm(const float* a, const float* b, float* c, int n) {
+std::vector<LaunchConfig> launch_gemm(const float* a, const float* b, float* c, long long n) {
     global_tracer.trace("Entering launch_gemm (Student)");
     
     // TODO: Define grid and block dimensions
@@ -18,5 +18,5 @@ std::vector<LaunchConfig> launch_gemm(const float* a, const float* b, float* c, 
     // gemm_kernel<<<blocksPerGrid, threadsPerBlock>>>(a, b, c, n);
     
     global_tracer.trace("Exiting launch_gemm (Student)");
-    return {{"gemm_kernel", (const void*)gemm_kernel, (int)(blocksPerGrid.x * blocksPerGrid.y * blocksPerGrid.z), (int)(threadsPerBlock.x * threadsPerBlock.y), 0}};
+    return {{"gemm_kernel", (const void*)gemm_kernel, (long long)(blocksPerGrid.x * blocksPerGrid.y * blocksPerGrid.z), (int)(threadsPerBlock.x * threadsPerBlock.y), 0}};
 }

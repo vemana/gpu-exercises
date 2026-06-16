@@ -8,8 +8,8 @@
 #include "kernel.h"
 #include "reference_kernel.h"
 
-void cpu_baseline(const float* a, const float* b, float* c, int size) {
-    for (int i = 0; i < size; ++i) {
+void cpu_baseline(const float* a, const float* b, float* c, long long size) {
+    for (long long i = 0; i < size; ++i) {
         c[i] = a[i] + b[i];
     }
 }
@@ -27,7 +27,7 @@ struct MapTest : public ProblemTest<1> {
     MapTest(const TestSize<1>& size) : ProblemTest<1>(size) {}
 
     void generate_test_data(bool check) override {
-        int n = size.dims[0];
+        long long n = size.dims[0];
         h_a.resize(n);
         h_b.resize(n);
         h_c.assign(n, 0.0f);
@@ -35,7 +35,7 @@ struct MapTest : public ProblemTest<1> {
 
         std::mt19937 gen(42);
         std::uniform_real_distribution<float> dist(0.0f, 100.0f);
-        for (int i = 0; i < n; ++i) {
+        for (long long i = 0; i < n; ++i) {
             h_a[i] = dist(gen);
             h_b[i] = dist(gen);
         }
@@ -43,7 +43,7 @@ struct MapTest : public ProblemTest<1> {
     }
 
     void setup_reference() override {
-        int n = size.dims[0];
+        long long n = size.dims[0];
         cudaMalloc(&d_a, n * sizeof(float));
         cudaMalloc(&d_b, n * sizeof(float));
         cudaMalloc(&d_c, n * sizeof(float));
@@ -63,7 +63,7 @@ struct MapTest : public ProblemTest<1> {
     }
 
     void setup_student() override {
-        int n = size.dims[0];
+        long long n = size.dims[0];
         cudaMalloc(&d_a, n * sizeof(float));
         cudaMalloc(&d_b, n * sizeof(float));
         cudaMalloc(&d_c, n * sizeof(float));
@@ -88,17 +88,10 @@ struct MapTest : public ProblemTest<1> {
     }
 
     void print_mismatch() override {
-        std::cout << "\n--- Expected Output ---\n";
-        for (int i = 0; i < std::min(size.dims[0], 10LL); ++i) {
-            std::cout << std::fixed << std::setprecision(2) << std::setw(8) << h_c_ref[i];
-            if ((i + 1) % 10 == 0) std::cout << "\n";
-        }
-        std::cout << "\n--- Actual Output ---\n";
-        for (int i = 0; i < std::min(size.dims[0], 10LL); ++i) {
-            std::cout << std::fixed << std::setprecision(2) << std::setw(8) << h_c[i];
-            if ((i + 1) % 10 == 0) std::cout << "\n";
-        }
-        std::cout << "\n";
+        print_array("Input (a)", h_a.data(), size.dims[0]);
+        print_array("Input (b)", h_b.data(), size.dims[0]);
+        print_array("Expected Output", h_c_ref.data(), size.dims[0]);
+        print_array("Actual Output", h_c.data(), size.dims[0]);
     }
 
     double get_bandwidth_bytes() override {

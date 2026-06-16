@@ -6,7 +6,7 @@
 #include "../utils/utils.h"
 #include "../utils/tracer.h"
 
-std::vector<LaunchConfig> launch_reference_map(const float* a, const float* b, float* c, int size) {
+std::vector<LaunchConfig> launch_reference_map(const float* a, const float* b, float* c, long long size) {
     global_tracer.trace("Entering launch_reference_map");
     
     thrust::device_ptr<const float> dev_a(a);

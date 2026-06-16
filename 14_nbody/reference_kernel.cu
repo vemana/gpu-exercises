@@ -8,8 +8,8 @@
 // Highly optimized N-body reference kernel using shared memory tiling and loop unrolling
 __global__ void reference_nbody_kernel(const float* pos_x, const float* pos_y, const float* pos_z, const float* mass, 
                                        const float* vel_x_in, const float* vel_y_in, const float* vel_z_in,
-                                       float* vel_x_out, float* vel_y_out, float* vel_z_out, int num_bodies, float dt) {
-    int i = blockIdx.x * blockDim.x + threadIdx.x;
+                                       float* vel_x_out, float* vel_y_out, float* vel_z_out, long long num_bodies, float dt) {
+    long long i = (long long)blockIdx.x * blockDim.x + threadIdx.x;
     
     // Use shared memory for tiling
     extern __shared__ float4 sh_pos_mass[]; 
@@ -25,8 +25,8 @@ __global__ void reference_nbody_kernel(const float* pos_x, const float* pos_y, c
     float fx = 0.0f, fy = 0.0f, fz = 0.0f;
     const float G = 6.67430e-11f;
     
-    for (int tile = 0; tile < (num_bodies + blockDim.x - 1) / blockDim.x; ++tile) {
-        int tile_idx = tile * blockDim.x + threadIdx.x;
+    for (long long tile = 0; tile < (num_bodies + blockDim.x - 1) / blockDim.x; ++tile) {
+        long long tile_idx = tile * blockDim.x + threadIdx.x;
         if (tile_idx < num_bodies) {
             sh_pos_mass[threadIdx.x] = make_float4(pos_x[tile_idx], pos_y[tile_idx], pos_z[tile_idx], mass[tile_idx]);
         } else {
@@ -62,11 +62,11 @@ __global__ void reference_nbody_kernel(const float* pos_x, const float* pos_y, c
 
 std::vector<LaunchConfig> launch_reference_nbody(const float* pos_x, const float* pos_y, const float* pos_z, const float* mass,
                                      const float* vel_x_in, const float* vel_y_in, const float* vel_z_in,
-                                     float* vel_x_out, float* vel_y_out, float* vel_z_out, int num_bodies, float dt) {
+                                     float* vel_x_out, float* vel_y_out, float* vel_z_out, long long num_bodies, float dt) {
     global_tracer.trace("Entering launch_reference_nbody (Tiled Version)");
 
     int threadsPerBlock = 256;
-    int blocksPerGrid = (num_bodies + threadsPerBlock - 1) / threadsPerBlock;
+    long long blocksPerGrid = (num_bodies + threadsPerBlock - 1) / threadsPerBlock;
 
     size_t smemSize = threadsPerBlock * sizeof(float4);
 
@@ -79,5 +79,5 @@ std::vector<LaunchConfig> launch_reference_nbody(const float* pos_x, const float
     );
 
     global_tracer.trace("Exiting launch_reference_nbody");
-    return {{"reference_nbody_kernel", (const void*)reference_nbody_kernel, blocksPerGrid, threadsPerBlock, smemSize}};
+    return {{"reference_nbody_kernel", (const void*)reference_nbody_kernel, (long long)blocksPerGrid, threadsPerBlock, smemSize}};
 }

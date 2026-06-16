@@ -40,7 +40,7 @@ You will learn about:
 ## What You Should Do
 1. Open `kernel.cu`.
 2. Implement the `radix_sort_kernel` (or a combination of kernels) to sort the array `a`, writing the sorted elements to `c`. You may want to allocate temporary buffers to ping-pong data between passes.
-3. Implement `launch_radix_sort` to launch the sequence of kernels for each radix pass, and return the final `LaunchMetrics`.
+3. Implement `launch_radix_sort` to launch the sequence of kernels for each radix pass, and return the final `std::vector<LaunchConfig>`.
 4. Make sure `launch_radix_sort` returns a `std::vector<LaunchConfig>` containing the configurations for all kernels launched so the test framework can automatically display your kernel's hardware utilization.
 5. Compile using `make` and run `./bin/run_test.sh` to evaluate your correctness and performance, and `./bin/run_profiler.sh` to identify bottlenecks.
 

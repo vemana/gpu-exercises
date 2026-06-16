@@ -5,7 +5,7 @@
 #include "../utils/utils.h"
 #include "../utils/tracer.h"
 
-std::vector<LaunchConfig> launch_reference_spmv(const float* values, const int* col_indices, const int* row_offsets, const float* x, float* y, int n) {
+std::vector<LaunchConfig> launch_reference_spmv(const float* values, const int* col_indices, const int* row_offsets, const float* x, float* y, long long n) {
     global_tracer.trace("Entering launch_reference_spmv");
     
     int nnz;

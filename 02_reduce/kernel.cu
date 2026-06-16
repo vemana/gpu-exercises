@@ -3,16 +3,16 @@
 #include "../utils/tracer.h"
 #include <vector>
 
-__global__ void reduce_kernel(const float* a, float* c, int size) {
+__global__ void reduce_kernel(const float* a, float* c, long long size) {
     // TODO: Implement sum reduction using shared memory
 }
 
-std::vector<LaunchConfig> launch_reduce(const float* a, float* c, int size) {
+std::vector<LaunchConfig> launch_reduce(const float* a, float* c, long long size) {
     global_tracer.trace("Entering launch_reduce (Student)");
 
     // TODO: Define grid and block dimensions
     int threadsPerBlock = 256;
-    int blocksPerGrid = (size + threadsPerBlock - 1) / threadsPerBlock;
+    long long blocksPerGrid = (size + threadsPerBlock - 1) / threadsPerBlock;
     size_t dynamic_smem = 0; // Update if using dynamic shared memory
 
     // TODO: Initialize output if necessary (e.g., cudaMemset)

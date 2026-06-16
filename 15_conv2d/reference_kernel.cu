@@ -6,7 +6,7 @@
 
 __constant__ float d_filter_const[9];
 
-__global__ void reference_conv2d_kernel(const float* a, float* c, int width, int height) {
+__global__ void reference_conv2d_kernel(const float* a, float* c, long long width, long long height) {
     __shared__ float sdata[18][18];
     
     int tx = threadIdx.x;
@@ -69,7 +69,7 @@ __global__ void reference_conv2d_kernel(const float* a, float* c, int width, int
     }
 }
 
-std::vector<LaunchConfig> launch_reference_conv2d(const float* a, const float* filter, float* c, int width, int height) {
+std::vector<LaunchConfig> launch_reference_conv2d(const float* a, const float* filter, float* c, long long width, long long height) {
     global_tracer.trace("Entering launch_reference_conv2d");
 
     cudaMemcpyToSymbol(d_filter_const, filter, 9 * sizeof(float));
@@ -82,5 +82,5 @@ std::vector<LaunchConfig> launch_reference_conv2d(const float* a, const float* f
     reference_conv2d_kernel<<<blocksPerGrid, threadsPerBlock>>>(a, c, width, height);
 
     global_tracer.trace("Exiting launch_reference_conv2d");
-    return {{"reference_conv2d_kernel", (const void*)reference_conv2d_kernel, static_cast<int>(blocksPerGrid.x * blocksPerGrid.y * blocksPerGrid.z), static_cast<int>(threadsPerBlock.x * threadsPerBlock.y * threadsPerBlock.z), 0}};
+    return {{"reference_conv2d_kernel", (const void*)reference_conv2d_kernel, static_cast<long long>(blocksPerGrid.x * blocksPerGrid.y * blocksPerGrid.z), static_cast<int>(threadsPerBlock.x * threadsPerBlock.y * threadsPerBlock.z), 0}};
 }

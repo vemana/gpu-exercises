@@ -9,8 +9,8 @@
 #include "kernel.h"
 #include "reference_kernel.h"
 
-void cpu_baseline(const float* values, const int* col_indices, const int* row_offsets, const float* x, float* y, int num_rows) {
-    for (int i = 0; i < num_rows; ++i) {
+void cpu_baseline(const float* values, const int* col_indices, const int* row_offsets, const float* x, float* y, long long num_rows) {
+    for (long long i = 0; i < num_rows; ++i) {
         float sum = 0.0f;
         int start = row_offsets[i];
         int end = row_offsets[i + 1];
@@ -39,7 +39,7 @@ struct SpMVTest : public ProblemTest<1> {
     SpMVTest(const TestSize<1>& size) : ProblemTest<1>(size) {}
 
     void generate_test_data(bool check) override {
-        int n = size.dims[0];
+        long long n = size.dims[0];
         h_row_offsets.resize(n + 1, 0);
         h_x.resize(n);
         h_y.assign(n, 0.0f);
@@ -50,14 +50,14 @@ struct SpMVTest : public ProblemTest<1> {
         
         // Generate a random sparse matrix with avg 4 non-zeros per row
         h_row_offsets[0] = 0;
-        for (int i = 0; i < n; ++i) {
+        for (long long i = 0; i < n; ++i) {
             h_x[i] = val_dist(gen);
             
             // random number of non-zeros, mean 4
             int row_nnz = 2 + (gen() % 5); 
             if (row_nnz > n) row_nnz = n;
             
-            for (int j = 0; j < row_nnz; ++j) {
+            for (long long j = 0; j < row_nnz; ++j) {
                 h_values.push_back(val_dist(gen));
                 h_col_indices.push_back(gen() % n);
             }
@@ -69,7 +69,7 @@ struct SpMVTest : public ProblemTest<1> {
     }
 
     void setup_reference() override {
-        int n = size.dims[0];
+        long long n = size.dims[0];
         cudaMalloc(&d_values, nnz * sizeof(float));
         cudaMalloc(&d_col_indices, nnz * sizeof(int));
         cudaMalloc(&d_row_offsets, (n + 1) * sizeof(int));
@@ -88,7 +88,7 @@ struct SpMVTest : public ProblemTest<1> {
     }
 
     void setup_student() override {
-        int n = size.dims[0];
+        long long n = size.dims[0];
         cudaMalloc(&d_values, nnz * sizeof(float));
         cudaMalloc(&d_col_indices, nnz * sizeof(int));
         cudaMalloc(&d_row_offsets, (n + 1) * sizeof(int));
@@ -107,28 +107,23 @@ struct SpMVTest : public ProblemTest<1> {
     }
 
     CorrectnessResult verify() override {
-        int n = size.dims[0];
+        long long n = size.dims[0];
         cudaMemcpy(h_y.data(), d_y, n * sizeof(float), cudaMemcpyDeviceToHost);
         return check_correctness(h_y_ref.data(), h_y.data(), n, 1e-4f);
     }
 
     void print_mismatch() override {
-        int n = size.dims[0];
-        std::cout << "\n--- Expected Output (First 10) ---\n";
-        for (int i = 0; i < std::min(n, 10); ++i) {
-            std::cout << std::fixed << std::setprecision(4) << std::setw(10) << h_y_ref[i];
-            if ((i + 1) % 10 == 0) std::cout << "\n";
-        }
-        std::cout << "\n--- Actual Output (First 10) ---\n";
-        for (int i = 0; i < std::min(n, 10); ++i) {
-            std::cout << std::fixed << std::setprecision(4) << std::setw(10) << h_y[i];
-            if ((i + 1) % 10 == 0) std::cout << "\n";
-        }
-        std::cout << "\n";
+        long long n = size.dims[0];
+        print_array("Values", h_values.data(), nnz);
+        print_array("Col Indices", h_col_indices.data(), nnz);
+        print_array("Row Offsets", h_row_offsets.data(), n + 1);
+        print_array("Vector x", h_x.data(), n);
+        print_array("Expected Output", h_y_ref.data(), n);
+        print_array("Actual Output", h_y.data(), n);
     }
 
     double get_bandwidth_bytes() override {
-        int n = size.dims[0];
+        long long n = size.dims[0];
         // Read values, col_indices, row_offsets, X vector (approx). Write Y vector.
         return nnz * sizeof(float) + nnz * sizeof(int) + (n + 1) * sizeof(int) + n * sizeof(float) + n * sizeof(float);
     }

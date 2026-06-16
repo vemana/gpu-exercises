@@ -6,7 +6,7 @@
 #include "../utils/utils.h"
 #include "../utils/tracer.h"
 
-std::vector<LaunchConfig> launch_reference_gather(const float* source, float* dest, const int* indices, int size) {
+std::vector<LaunchConfig> launch_reference_gather(const float* source, float* dest, const int* indices, long long size) {
     global_tracer.trace("Entering launch_reference_gather");
     
     thrust::device_ptr<const float> dev_source(source);

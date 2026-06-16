@@ -2,16 +2,16 @@
 #include "../utils/utils.h"
 #include "../utils/tracer.h"
 
-__global__ void gather_kernel(const float* source, float* dest, const int* indices, int size) {
+__global__ void gather_kernel(const float* source, float* dest, const int* indices, long long size) {
     // TODO: Implement gather operation
 }
 
-std::vector<LaunchConfig> launch_gather(const float* source, float* dest, const int* indices, int size) {
+std::vector<LaunchConfig> launch_gather(const float* source, float* dest, const int* indices, long long size) {
     global_tracer.trace("Entering launch_gather (Student)");
     
     // TODO: Define grid and block dimensions
     int threadsPerBlock = 256;
-    int blocksPerGrid = (size + threadsPerBlock - 1) / threadsPerBlock;
+    long long blocksPerGrid = (size + threadsPerBlock - 1) / threadsPerBlock;
     
     global_tracer.trace("Launching gather_kernel (Student)");
     // gather_kernel<<<blocksPerGrid, threadsPerBlock>>>(source, dest, indices, size);

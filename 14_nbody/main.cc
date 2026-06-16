@@ -11,11 +11,11 @@
 
 void cpu_baseline(const float* pos_x, const float* pos_y, const float* pos_z, const float* mass, 
                   const float* vel_x_in, const float* vel_y_in, const float* vel_z_in,
-                  float* vel_x_out, float* vel_y_out, float* vel_z_out, int num_bodies, float dt) {
+                  float* vel_x_out, float* vel_y_out, float* vel_z_out, long long num_bodies, float dt) {
     const float G = 6.67430e-11f;
-    for (int i = 0; i < num_bodies; ++i) {
+    for (long long i = 0; i < num_bodies; ++i) {
         float fx = 0.0f, fy = 0.0f, fz = 0.0f;
-        for (int j = 0; j < num_bodies; ++j) {
+        for (long long j = 0; j < num_bodies; ++j) {
             if (i != j) {
                 float dx = pos_x[j] - pos_x[i];
                 float dy = pos_y[j] - pos_y[i];
@@ -49,7 +49,7 @@ struct NBodyTest : public ProblemTest<1> {
     NBodyTest(const TestSize<1>& size) : ProblemTest<1>(size) {}
 
     void generate_test_data(bool check) override {
-        int n = size.dims[0];
+        long long n = size.dims[0];
         h_pos_x.resize(n); h_pos_y.resize(n); h_pos_z.resize(n); h_mass.resize(n);
         h_vel_x_in.resize(n); h_vel_y_in.resize(n); h_vel_z_in.resize(n);
         h_vel_x_out.assign(n, 0); h_vel_y_out.assign(n, 0); h_vel_z_out.assign(n, 0);
@@ -60,7 +60,7 @@ struct NBodyTest : public ProblemTest<1> {
         std::uniform_real_distribution<float> vel_dist(-10.0f, 10.0f);
         std::uniform_real_distribution<float> mass_dist(1e12f, 1e15f);
         
-        for (int i = 0; i < n; ++i) {
+        for (long long i = 0; i < n; ++i) {
             h_pos_x[i] = pos_dist(gen);
             h_pos_y[i] = pos_dist(gen);
             h_pos_z[i] = pos_dist(gen);
@@ -78,7 +78,7 @@ struct NBodyTest : public ProblemTest<1> {
     }
 
     void setup_reference() override {
-        int n = size.dims[0];
+        long long n = size.dims[0];
         cudaMalloc(&d_pos_x, n * sizeof(float)); cudaMalloc(&d_pos_y, n * sizeof(float)); cudaMalloc(&d_pos_z, n * sizeof(float)); cudaMalloc(&d_mass, n * sizeof(float));
         cudaMalloc(&d_vel_x_in, n * sizeof(float)); cudaMalloc(&d_vel_y_in, n * sizeof(float)); cudaMalloc(&d_vel_z_in, n * sizeof(float));
         cudaMalloc(&d_vel_x_out, n * sizeof(float)); cudaMalloc(&d_vel_y_out, n * sizeof(float)); cudaMalloc(&d_vel_z_out, n * sizeof(float));
@@ -101,7 +101,7 @@ struct NBodyTest : public ProblemTest<1> {
     }
 
     void setup_student() override {
-        int n = size.dims[0];
+        long long n = size.dims[0];
         cudaMalloc(&d_pos_x, n * sizeof(float)); cudaMalloc(&d_pos_y, n * sizeof(float)); cudaMalloc(&d_pos_z, n * sizeof(float)); cudaMalloc(&d_mass, n * sizeof(float));
         cudaMalloc(&d_vel_x_in, n * sizeof(float)); cudaMalloc(&d_vel_y_in, n * sizeof(float)); cudaMalloc(&d_vel_z_in, n * sizeof(float));
         cudaMalloc(&d_vel_x_out, n * sizeof(float)); cudaMalloc(&d_vel_y_out, n * sizeof(float)); cudaMalloc(&d_vel_z_out, n * sizeof(float));
@@ -124,7 +124,7 @@ struct NBodyTest : public ProblemTest<1> {
     }
 
     CorrectnessResult verify() override {
-        int n = size.dims[0];
+        long long n = size.dims[0];
         cudaMemcpy(h_vel_x_out.data(), d_vel_x_out, n * sizeof(float), cudaMemcpyDeviceToHost);
         cudaMemcpy(h_vel_y_out.data(), d_vel_y_out, n * sizeof(float), cudaMemcpyDeviceToHost);
         cudaMemcpy(h_vel_z_out.data(), d_vel_z_out, n * sizeof(float), cudaMemcpyDeviceToHost);
@@ -139,24 +139,23 @@ struct NBodyTest : public ProblemTest<1> {
     }
 
     void print_mismatch() override {
-        int n = size.dims[0];
-        std::cout << "\n--- Expected Output (First 10) [X, Y, Z] ---\n";
-        for (int i = 0; i < std::min(n, 10); ++i) {
-            std::cout << "[" << std::fixed << std::setprecision(4) << h_vel_x_ref[i] << ", "
-                      << h_vel_y_ref[i] << ", " << h_vel_z_ref[i] << "]\n";
-        }
-        std::cout << "\n--- Actual Output (First 10) [X, Y, Z] ---\n";
-        for (int i = 0; i < std::min(n, 10); ++i) {
-            std::cout << "[" << std::fixed << std::setprecision(4) << h_vel_x_out[i] << ", "
-                      << h_vel_y_out[i] << ", " << h_vel_z_out[i] << "]\n";
-        }
-        std::cout << "\n";
+        long long n = size.dims[0];
+        print_array("Pos X", h_pos_x.data(), n);
+        print_array("Pos Y", h_pos_y.data(), n);
+        print_array("Pos Z", h_pos_z.data(), n);
+        print_array("Mass", h_mass.data(), n);
+        print_array("Vel X Expected", h_vel_x_ref.data(), n);
+        print_array("Vel Y Expected", h_vel_y_ref.data(), n);
+        print_array("Vel Z Expected", h_vel_z_ref.data(), n);
+        print_array("Vel X Actual", h_vel_x_out.data(), n);
+        print_array("Vel Y Actual", h_vel_y_out.data(), n);
+        print_array("Vel Z Actual", h_vel_z_out.data(), n);
     }
 
     double get_bandwidth_bytes() override {
         // N-body bandwidth isn't easily defined due to O(N^2) data reuse
         // But useful memory moved per iteration is reading state, writing state:
-        int n = size.dims[0];
+        long long n = size.dims[0];
         return n * 7 * sizeof(float) + n * 3 * sizeof(float); // Read pos(3), mass(1), vel(3); Write vel(3)
     }
 

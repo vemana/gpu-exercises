@@ -5,7 +5,7 @@
 #include "../utils/tracer.h"
 #include <vector>
 
-std::vector<LaunchConfig> launch_reference_reduce(const float* a, float* c, int size) {
+std::vector<LaunchConfig> launch_reference_reduce(const float* a, float* c, long long size) {
     global_tracer.trace("Entering launch_reference_reduce");
     
     void *d_temp_storage = NULL;

@@ -27,7 +27,7 @@ __global__ void reference_bfs_frontier_kernel(const int* current_frontier, int f
     }
 }
 
-std::vector<LaunchConfig> launch_reference_bfs(const int* row_offsets, const int* col_indices, int* distances, int num_nodes, int num_edges, int source_node) {
+std::vector<LaunchConfig> launch_reference_bfs(const int* row_offsets, const int* col_indices, int* distances, long long num_nodes, long long num_edges, int source_node) {
     global_tracer.trace("Entering launch_reference_bfs (Frontier Queue Optimized)");
     
     int* d_current_frontier;
@@ -47,12 +47,12 @@ std::vector<LaunchConfig> launch_reference_bfs(const int* row_offsets, const int
     int current_level = 0;
     int frontier_size = 1;
     int threadsPerBlock = 256;
-    int maxBlocksPerGrid = 0;
+    long long maxBlocksPerGrid = 0;
     
     while (frontier_size > 0) {
         cudaMemset(d_next_frontier_size, 0, sizeof(int));
         
-        int blocksPerGrid = (frontier_size + threadsPerBlock - 1) / threadsPerBlock;
+        long long blocksPerGrid = (frontier_size + threadsPerBlock - 1) / threadsPerBlock;
         if (blocksPerGrid > maxBlocksPerGrid) maxBlocksPerGrid = blocksPerGrid;
         
         reference_bfs_frontier_kernel<<<blocksPerGrid, threadsPerBlock>>>(

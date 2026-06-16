@@ -5,7 +5,7 @@
 #include "../utils/utils.h"
 #include "../utils/tracer.h"
 
-std::vector<LaunchConfig> launch_reference_gemm(const float* a, const float* b, float* c, int n) {
+std::vector<LaunchConfig> launch_reference_gemm(const float* a, const float* b, float* c, long long n) {
     global_tracer.trace("Entering launch_reference_gemm");
     
     cublasHandle_t handle;
