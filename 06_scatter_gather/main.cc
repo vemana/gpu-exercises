@@ -57,7 +57,7 @@ struct GatherTest : public ProblemTest<1> {
         cudaMemset(d_dest, 0, n * sizeof(float));
     }
 
-    LaunchMetrics launch_reference() override {
+    std::vector<LaunchConfig> launch_reference() override {
         return launch_reference_gather(d_source, d_dest, d_indices, size.dims[0]);
     }
 
@@ -72,7 +72,7 @@ struct GatherTest : public ProblemTest<1> {
         cudaMemset(d_dest, 0, n * sizeof(float));
     }
 
-    LaunchMetrics launch_student() override {
+    std::vector<LaunchConfig> launch_student() override {
         return launch_gather(d_source, d_dest, d_indices, size.dims[0]);
     }
 

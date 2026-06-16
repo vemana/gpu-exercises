@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 #include "../utils/utils.h"
 
-LaunchMetrics launch_reference_segmented_scan(const float* a, const int* flags, float* c, int size);
+std::vector<LaunchConfig> launch_reference_segmented_scan(const float* a, const int* flags, float* c, int size);

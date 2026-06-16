@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 #include "../utils/utils.h"
 
-LaunchMetrics launch_gather(const float* source, float* dest, const int* indices, int size);
+std::vector<LaunchConfig> launch_gather(const float* source, float* dest, const int* indices, int size);

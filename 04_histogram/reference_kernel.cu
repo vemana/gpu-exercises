@@ -3,8 +3,9 @@
 #include <cub/cub.cuh>
 #include "../utils/utils.h"
 #include "../utils/tracer.h"
+#include <vector>
 
-LaunchMetrics launch_reference_histogram(const int* a, int* bins, int size, int num_bins) {
+std::vector<LaunchConfig> launch_reference_histogram(const int* a, int* bins, int size, int num_bins) {
     global_tracer.trace("Entering launch_reference_histogram");
     
     void *d_temp_storage = NULL;
@@ -22,7 +23,5 @@ LaunchMetrics launch_reference_histogram(const int* a, int* bins, int size, int 
     cudaFree(d_temp_storage);
     global_tracer.trace("Exiting launch_reference_histogram");
     
-    OccupancyMetrics occ;
-    occ.is_dummy = true;
-    return {1, occ};
+    return {{"cub::DeviceHistogram::HistogramEven", nullptr, 1, 1, 0}};
 }

@@ -50,7 +50,7 @@ struct HistogramTest : public ProblemTest<1> {
         cudaMemset(d_bins, 0, num_bins * sizeof(int));
     }
 
-    LaunchMetrics launch_reference() override {
+    std::vector<LaunchConfig> launch_reference() override {
         return launch_reference_histogram(d_a, d_bins, size.dims[0], num_bins);
     }
 
@@ -62,7 +62,7 @@ struct HistogramTest : public ProblemTest<1> {
         cudaMemset(d_bins, 0, num_bins * sizeof(int));
     }
 
-    LaunchMetrics launch_student() override {
+    std::vector<LaunchConfig> launch_student() override {
         return launch_histogram(d_a, d_bins, size.dims[0], num_bins);
     }
 

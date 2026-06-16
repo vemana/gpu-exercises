@@ -1,10 +1,11 @@
 #include "reference_kernel.h"
 #include <cuda_runtime.h>
 #include <cublas_v2.h>
+#include <vector>
 #include "../utils/utils.h"
 #include "../utils/tracer.h"
 
-LaunchMetrics launch_reference_gemm(const float* a, const float* b, float* c, int n) {
+std::vector<LaunchConfig> launch_reference_gemm(const float* a, const float* b, float* c, int n) {
     global_tracer.trace("Entering launch_reference_gemm");
     
     cublasHandle_t handle;
@@ -26,7 +27,5 @@ LaunchMetrics launch_reference_gemm(const float* a, const float* b, float* c, in
     
     global_tracer.trace("Exiting launch_reference_gemm");
     
-    OccupancyMetrics occ;
-    occ.is_dummy = true;
-    return {1, occ};
+    return {{"cublasSgemm", nullptr, 1, 1, 0}};
 }

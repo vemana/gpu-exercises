@@ -6,18 +6,16 @@ __global__ void gather_kernel(const float* source, float* dest, const int* indic
     // TODO: Implement gather operation
 }
 
-LaunchMetrics launch_gather(const float* source, float* dest, const int* indices, int size) {
+std::vector<LaunchConfig> launch_gather(const float* source, float* dest, const int* indices, int size) {
     global_tracer.trace("Entering launch_gather (Student)");
     
     // TODO: Define grid and block dimensions
     int threadsPerBlock = 256;
     int blocksPerGrid = (size + threadsPerBlock - 1) / threadsPerBlock;
     
-    OccupancyMetrics occ = calculate_occupancy((const void*)gather_kernel, threadsPerBlock, 0);
-    
     global_tracer.trace("Launching gather_kernel (Student)");
     // gather_kernel<<<blocksPerGrid, threadsPerBlock>>>(source, dest, indices, size);
     
     global_tracer.trace("Exiting launch_gather (Student)");
-    return {blocksPerGrid, occ};
+    return {{"gather_kernel", (const void*)gather_kernel, blocksPerGrid, threadsPerBlock, 0}};
 }

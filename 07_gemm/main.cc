@@ -60,7 +60,7 @@ struct GemmTest : public ProblemTest<1> {
         cudaMemset(d_c, 0, n * n * sizeof(float));
     }
 
-    LaunchMetrics launch_reference() override {
+    std::vector<LaunchConfig> launch_reference() override {
         return launch_reference_gemm(d_a, d_b, d_c, size.dims[0]);
     }
 
@@ -75,7 +75,7 @@ struct GemmTest : public ProblemTest<1> {
         cudaMemset(d_c, 0, n * n * sizeof(float));
     }
 
-    LaunchMetrics launch_student() override {
+    std::vector<LaunchConfig> launch_student() override {
         return launch_gemm(d_a, d_b, d_c, size.dims[0]);
     }
 

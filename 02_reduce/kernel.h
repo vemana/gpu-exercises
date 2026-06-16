@@ -1,8 +1,9 @@
 #ifndef KERNEL_H
 #define KERNEL_H
 
+#include <vector>
 #include "../utils/utils.h"
 
-LaunchMetrics launch_reduce(const float* a, float* c, int size);
+std::vector<LaunchConfig> launch_reduce(const float* a, float* c, int size);
 
 #endif

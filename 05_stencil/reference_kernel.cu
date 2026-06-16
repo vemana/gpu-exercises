@@ -1,5 +1,6 @@
 #include "reference_kernel.h"
 #include <cuda_runtime.h>
+#include <vector>
 #include "../utils/utils.h"
 #include "../utils/tracer.h"
 
@@ -38,18 +39,16 @@ __global__ void reference_stencil_kernel(const float* a, float* c, int size, int
     }
 }
 
-LaunchMetrics launch_reference_stencil(const float* a, float* c, int size, int radius) {
+std::vector<LaunchConfig> launch_reference_stencil(const float* a, float* c, int size, int radius) {
     global_tracer.trace("Entering launch_reference_stencil");
     int threadsPerBlock = 256;
     int blocksPerGrid = (size + threadsPerBlock - 1) / threadsPerBlock;
     
     size_t smemSize = (threadsPerBlock + 2 * radius) * sizeof(float);
     
-    OccupancyMetrics occ = calculate_occupancy((const void*)reference_stencil_kernel, threadsPerBlock, smemSize);
-    
     global_tracer.trace("Launching reference_stencil_kernel");
     reference_stencil_kernel<<<blocksPerGrid, threadsPerBlock, smemSize>>>(a, c, size, radius);
     
     global_tracer.trace("Exiting launch_reference_stencil");
-    return {blocksPerGrid, occ};
+    return {{"reference_stencil_kernel", (const void*)reference_stencil_kernel, blocksPerGrid, threadsPerBlock, smemSize}};
 }

@@ -1,5 +1,6 @@
 #include "reference_kernel.h"
 #include <cuda_runtime.h>
+#include <vector>
 #include "../utils/utils.h"
 #include "../utils/tracer.h"
 
@@ -26,7 +27,7 @@ __global__ void reference_bfs_frontier_kernel(const int* current_frontier, int f
     }
 }
 
-LaunchMetrics launch_reference_bfs(const int* row_offsets, const int* col_indices, int* distances, int num_nodes, int num_edges, int source_node) {
+std::vector<LaunchConfig> launch_reference_bfs(const int* row_offsets, const int* col_indices, int* distances, int num_nodes, int num_edges, int source_node) {
     global_tracer.trace("Entering launch_reference_bfs (Frontier Queue Optimized)");
     
     int* d_current_frontier;
@@ -76,8 +77,6 @@ LaunchMetrics launch_reference_bfs(const int* row_offsets, const int* col_indice
     cudaFree(d_next_frontier);
     cudaFree(d_next_frontier_size);
     
-    OccupancyMetrics occ = calculate_occupancy((const void*)reference_bfs_frontier_kernel, threadsPerBlock, 0);
-    
     global_tracer.trace("Exiting launch_reference_bfs");
-    return {maxBlocksPerGrid, occ};
+    return {{"reference_bfs_frontier_kernel", (const void*)reference_bfs_frontier_kernel, maxBlocksPerGrid, threadsPerBlock, 0}};
 }

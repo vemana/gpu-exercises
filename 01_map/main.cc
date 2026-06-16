@@ -52,7 +52,7 @@ struct MapTest : public ProblemTest<1> {
         cudaMemset(d_c, 0, n * sizeof(float));
     }
 
-    LaunchMetrics launch_reference() override {
+    std::vector<LaunchConfig> launch_reference() override {
         return launch_reference_map(d_a, d_b, d_c, size.dims[0]);
     }
 
@@ -72,7 +72,7 @@ struct MapTest : public ProblemTest<1> {
         cudaMemset(d_c, 0, n * sizeof(float));
     }
 
-    LaunchMetrics launch_student() override {
+    std::vector<LaunchConfig> launch_student() override {
         return launch_map(d_a, d_b, d_c, size.dims[0]);
     }
 

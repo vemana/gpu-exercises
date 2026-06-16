@@ -103,12 +103,20 @@ struct OccupancyMetrics {
     float reg_util;
 };
 
-struct LaunchMetrics {
+struct LaunchConfig {
+    std::string kernel_name;
+    const void* kernel_func;
     int blocksPerGrid;
-    OccupancyMetrics metrics;
+    int threadsPerBlock;
+    size_t dynamicSmemBytes;
 };
 
 inline OccupancyMetrics calculate_occupancy(const void* kernel_func, int block_size, size_t dynamic_smem) {
+    if (kernel_func == nullptr) {
+        OccupancyMetrics m;
+        m.is_dummy = true;
+        return m;
+    }
     int device;
     cudaGetDevice(&device);
     cudaDeviceProp prop;

@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 #include "../utils/utils.h"
 
-LaunchMetrics launch_stencil(const float* a, float* c, int size, int radius);
+std::vector<LaunchConfig> launch_stencil(const float* a, float* c, int size, int radius);

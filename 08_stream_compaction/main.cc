@@ -57,7 +57,7 @@ struct StreamCompactionTest : public ProblemTest<1> {
         cudaMemset(d_count, 0, sizeof(int));
     }
 
-    LaunchMetrics launch_reference() override {
+    std::vector<LaunchConfig> launch_reference() override {
         return launch_reference_compaction(d_a, d_c, d_count, size.dims[0]);
     }
 
@@ -72,7 +72,7 @@ struct StreamCompactionTest : public ProblemTest<1> {
         cudaMemset(d_count, 0, sizeof(int));
     }
 
-    LaunchMetrics launch_student() override {
+    std::vector<LaunchConfig> launch_student() override {
         return launch_compaction(d_a, d_c, d_count, size.dims[0]);
     }
 

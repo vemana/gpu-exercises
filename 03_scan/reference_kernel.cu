@@ -2,10 +2,11 @@
 #include <cuda_runtime.h>
 #include <thrust/scan.h>
 #include <thrust/device_ptr.h>
+#include <vector>
 #include "../utils/utils.h"
 #include "../utils/tracer.h"
 
-LaunchMetrics launch_reference_scan(const float* a, float* c, int size) {
+std::vector<LaunchConfig> launch_reference_scan(const float* a, float* c, int size) {
     global_tracer.trace("Entering launch_reference_scan");
     
     thrust::device_ptr<const float> dev_a(a);
@@ -16,7 +17,5 @@ LaunchMetrics launch_reference_scan(const float* a, float* c, int size) {
     
     global_tracer.trace("Exiting launch_reference_scan");
     
-    OccupancyMetrics occ;
-    occ.is_dummy = true;
-    return {1, occ};
+    return {{"thrust::exclusive_scan", nullptr, 1, 1, 0}};
 }

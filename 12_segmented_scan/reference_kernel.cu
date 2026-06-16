@@ -5,6 +5,7 @@
 #include <thrust/iterator/zip_iterator.h>
 #include <thrust/tuple.h>
 #include <thrust/iterator/discard_iterator.h>
+#include <vector>
 #include "../utils/utils.h"
 #include "../utils/tracer.h"
 
@@ -25,7 +26,7 @@ struct SegmentedScanOp {
     }
 };
 
-LaunchMetrics launch_reference_segmented_scan(const float* a, const int* flags, float* c, int size) {
+std::vector<LaunchConfig> launch_reference_segmented_scan(const float* a, const int* flags, float* c, int size) {
     global_tracer.trace("Entering launch_reference_segmented_scan");
     
     thrust::device_ptr<const float> dev_a(a);
@@ -40,7 +41,5 @@ LaunchMetrics launch_reference_segmented_scan(const float* a, const int* flags, 
     
     global_tracer.trace("Exiting launch_reference_segmented_scan");
     
-    OccupancyMetrics occ;
-    occ.is_dummy = true;
-    return {1, occ};
+    return {{"thrust::inclusive_scan", nullptr, 1, 1, 0}};
 }

@@ -3,8 +3,9 @@
 #include <cub/cub.cuh>
 #include "../utils/utils.h"
 #include "../utils/tracer.h"
+#include <vector>
 
-LaunchMetrics launch_reference_reduce(const float* a, float* c, int size) {
+std::vector<LaunchConfig> launch_reference_reduce(const float* a, float* c, int size) {
     global_tracer.trace("Entering launch_reference_reduce");
     
     void *d_temp_storage = NULL;
@@ -20,7 +21,5 @@ LaunchMetrics launch_reference_reduce(const float* a, float* c, int size) {
     cudaFree(d_temp_storage);
     global_tracer.trace("Exiting launch_reference_reduce");
     
-    OccupancyMetrics occ;
-    occ.is_dummy = true;
-    return {1, occ};
+    return {{"cub::DeviceReduce::Sum", nullptr, 1, 1, 0}};
 }

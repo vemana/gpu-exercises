@@ -94,7 +94,7 @@ struct BFSTest : public ProblemTest<1> {
         cudaMemset(d_distances, 0xFF, n * sizeof(int)); // -1
     }
 
-    LaunchMetrics launch_reference() override {
+    std::vector<LaunchConfig> launch_reference() override {
         return launch_reference_bfs(d_row_offsets, d_col_indices, d_distances, size.dims[0], num_edges, 0);
     }
 
@@ -109,7 +109,7 @@ struct BFSTest : public ProblemTest<1> {
         cudaMemset(d_distances, 0xFF, n * sizeof(int)); // -1
     }
 
-    LaunchMetrics launch_student() override {
+    std::vector<LaunchConfig> launch_student() override {
         return launch_bfs(d_row_offsets, d_col_indices, d_distances, size.dims[0], num_edges, 0);
     }
 

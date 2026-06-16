@@ -6,7 +6,7 @@
 #include "../utils/utils.h"
 #include "../utils/tracer.h"
 
-LaunchMetrics launch_reference_map(const float* a, const float* b, float* c, int size) {
+std::vector<LaunchConfig> launch_reference_map(const float* a, const float* b, float* c, int size) {
     global_tracer.trace("Entering launch_reference_map");
     
     thrust::device_ptr<const float> dev_a(a);
@@ -18,7 +18,5 @@ LaunchMetrics launch_reference_map(const float* a, const float* b, float* c, int
     
     global_tracer.trace("Exiting launch_reference_map");
     
-    OccupancyMetrics occ;
-    occ.is_dummy = true;
-    return {1, occ};
+    return {{"thrust::transform", nullptr, 1, 1, 0}};
 }

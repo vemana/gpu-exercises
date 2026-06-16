@@ -2,6 +2,7 @@
 #include <cuda_runtime.h>
 #include <thrust/device_ptr.h>
 #include <thrust/copy.h>
+#include <vector>
 #include "../utils/utils.h"
 #include "../utils/tracer.h"
 
@@ -11,7 +12,7 @@ struct is_positive {
     }
 };
 
-LaunchMetrics launch_reference_compaction(const int* a, int* c, int* count, int size) {
+std::vector<LaunchConfig> launch_reference_compaction(const int* a, int* c, int* count, int size) {
     global_tracer.trace("Entering launch_reference_compaction");
     
     thrust::device_ptr<const int> dev_a(a);
@@ -25,7 +26,5 @@ LaunchMetrics launch_reference_compaction(const int* a, int* c, int* count, int 
     
     global_tracer.trace("Exiting launch_reference_compaction");
     
-    OccupancyMetrics occ;
-    occ.is_dummy = true;
-    return {1, occ};
+    return {{"thrust::copy_if", nullptr, 1, 1, 0}};
 }

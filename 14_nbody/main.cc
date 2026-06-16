@@ -96,7 +96,7 @@ struct NBodyTest : public ProblemTest<1> {
         cudaMemset(d_vel_z_out, 0, n * sizeof(float));
     }
 
-    LaunchMetrics launch_reference() override {
+    std::vector<LaunchConfig> launch_reference() override {
         return launch_reference_nbody(d_pos_x, d_pos_y, d_pos_z, d_mass, d_vel_x_in, d_vel_y_in, d_vel_z_in, d_vel_x_out, d_vel_y_out, d_vel_z_out, size.dims[0], dt);
     }
 
@@ -119,7 +119,7 @@ struct NBodyTest : public ProblemTest<1> {
         cudaMemset(d_vel_z_out, 0, n * sizeof(float));
     }
 
-    LaunchMetrics launch_student() override {
+    std::vector<LaunchConfig> launch_student() override {
         return launch_nbody(d_pos_x, d_pos_y, d_pos_z, d_mass, d_vel_x_in, d_vel_y_in, d_vel_z_in, d_vel_x_out, d_vel_y_out, d_vel_z_out, size.dims[0], dt);
     }
 

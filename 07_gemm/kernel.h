@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 #include "../utils/utils.h"
 
-LaunchMetrics launch_gemm(const float* a, const float* b, float* c, int n);
+std::vector<LaunchConfig> launch_gemm(const float* a, const float* b, float* c, int n);

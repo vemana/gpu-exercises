@@ -1,10 +1,11 @@
 #include "reference_kernel.h"
 #include <cuda_runtime.h>
 #include <cusparse.h>
+#include <vector>
 #include "../utils/utils.h"
 #include "../utils/tracer.h"
 
-LaunchMetrics launch_reference_spmv(const float* values, const int* col_indices, const int* row_offsets, const float* x, float* y, int n) {
+std::vector<LaunchConfig> launch_reference_spmv(const float* values, const int* col_indices, const int* row_offsets, const float* x, float* y, int n) {
     global_tracer.trace("Entering launch_reference_spmv");
     
     int nnz;
@@ -48,7 +49,5 @@ LaunchMetrics launch_reference_spmv(const float* values, const int* col_indices,
     
     global_tracer.trace("Exiting launch_reference_spmv");
     
-    OccupancyMetrics occ;
-    occ.is_dummy = true;
-    return {1, occ};
+    return {{"cusparseSpMV", nullptr, 1, 1, 0}};
 }

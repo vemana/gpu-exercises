@@ -2,10 +2,11 @@
 #include <cuda_runtime.h>
 #include <thrust/device_ptr.h>
 #include <thrust/gather.h>
+#include <vector>
 #include "../utils/utils.h"
 #include "../utils/tracer.h"
 
-LaunchMetrics launch_reference_gather(const float* source, float* dest, const int* indices, int size) {
+std::vector<LaunchConfig> launch_reference_gather(const float* source, float* dest, const int* indices, int size) {
     global_tracer.trace("Entering launch_reference_gather");
     
     thrust::device_ptr<const float> dev_source(source);
@@ -17,7 +18,5 @@ LaunchMetrics launch_reference_gather(const float* source, float* dest, const in
     
     global_tracer.trace("Exiting launch_reference_gather");
     
-    OccupancyMetrics occ;
-    occ.is_dummy = true;
-    return {1, occ};
+    return {{"thrust::gather", nullptr, 1, 1, 0}};
 }

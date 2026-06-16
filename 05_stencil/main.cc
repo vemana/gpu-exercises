@@ -55,7 +55,7 @@ struct StencilTest : public ProblemTest<1> {
         cudaMemset(d_c, 0, n * sizeof(float));
     }
 
-    LaunchMetrics launch_reference() override {
+    std::vector<LaunchConfig> launch_reference() override {
         return launch_reference_stencil(d_a, d_c, size.dims[0], radius);
     }
 
@@ -67,7 +67,7 @@ struct StencilTest : public ProblemTest<1> {
         cudaMemset(d_c, 0, n * sizeof(float));
     }
 
-    LaunchMetrics launch_student() override {
+    std::vector<LaunchConfig> launch_student() override {
         return launch_stencil(d_a, d_c, size.dims[0], radius);
     }
 

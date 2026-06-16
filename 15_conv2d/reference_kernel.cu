@@ -1,5 +1,6 @@
 #include "reference_kernel.h"
 #include <cuda_runtime.h>
+#include <vector>
 #include "../utils/utils.h"
 #include "../utils/tracer.h"
 
@@ -68,20 +69,18 @@ __global__ void reference_conv2d_kernel(const float* a, float* c, int width, int
     }
 }
 
-LaunchMetrics launch_reference_conv2d(const float* a, const float* filter, float* c, int width, int height) {
+std::vector<LaunchConfig> launch_reference_conv2d(const float* a, const float* filter, float* c, int width, int height) {
     global_tracer.trace("Entering launch_reference_conv2d");
-    
+
     cudaMemcpyToSymbol(d_filter_const, filter, 9 * sizeof(float));
-    
+
     dim3 threadsPerBlock(16, 16);
-    dim3 blocksPerGrid((width + threadsPerBlock.x - 1) / threadsPerBlock.x, 
+    dim3 blocksPerGrid((width + threadsPerBlock.x - 1) / threadsPerBlock.x,
                        (height + threadsPerBlock.y - 1) / threadsPerBlock.y);
-    
-    OccupancyMetrics occ = calculate_occupancy((const void*)reference_conv2d_kernel, threadsPerBlock.x * threadsPerBlock.y, 0);
-    
+
     global_tracer.trace("Launching reference_conv2d_kernel");
     reference_conv2d_kernel<<<blocksPerGrid, threadsPerBlock>>>(a, c, width, height);
-    
+
     global_tracer.trace("Exiting launch_reference_conv2d");
-    return {static_cast<int>(blocksPerGrid.x * blocksPerGrid.y * blocksPerGrid.z), occ};
+    return {{"reference_conv2d_kernel", (const void*)reference_conv2d_kernel, static_cast<int>(blocksPerGrid.x * blocksPerGrid.y * blocksPerGrid.z), static_cast<int>(threadsPerBlock.x * threadsPerBlock.y * threadsPerBlock.z), 0}};
 }

@@ -1,6 +1,7 @@
 #include "reference_kernel.h"
 #include <cuda_runtime.h>
 #include <math.h>
+#include <vector>
 #include "../utils/utils.h"
 #include "../utils/tracer.h"
 
@@ -59,26 +60,24 @@ __global__ void reference_nbody_kernel(const float* pos_x, const float* pos_y, c
     }
 }
 
-LaunchMetrics launch_reference_nbody(const float* pos_x, const float* pos_y, const float* pos_z, const float* mass, 
+std::vector<LaunchConfig> launch_reference_nbody(const float* pos_x, const float* pos_y, const float* pos_z, const float* mass,
                                      const float* vel_x_in, const float* vel_y_in, const float* vel_z_in,
                                      float* vel_x_out, float* vel_y_out, float* vel_z_out, int num_bodies, float dt) {
     global_tracer.trace("Entering launch_reference_nbody (Tiled Version)");
-    
+
     int threadsPerBlock = 256;
     int blocksPerGrid = (num_bodies + threadsPerBlock - 1) / threadsPerBlock;
-    
+
     size_t smemSize = threadsPerBlock * sizeof(float4);
-    
-    OccupancyMetrics occ = calculate_occupancy((const void*)reference_nbody_kernel, threadsPerBlock, smemSize);
-    
+
     global_tracer.trace("Launching reference_nbody_kernel");
     reference_nbody_kernel<<<blocksPerGrid, threadsPerBlock, smemSize>>>(
-        pos_x, pos_y, pos_z, mass, 
-        vel_x_in, vel_y_in, vel_z_in, 
-        vel_x_out, vel_y_out, vel_z_out, 
+        pos_x, pos_y, pos_z, mass,
+        vel_x_in, vel_y_in, vel_z_in,
+        vel_x_out, vel_y_out, vel_z_out,
         num_bodies, dt
     );
-    
+
     global_tracer.trace("Exiting launch_reference_nbody");
-    return {blocksPerGrid, occ};
+    return {{"reference_nbody_kernel", (const void*)reference_nbody_kernel, blocksPerGrid, threadsPerBlock, smemSize}};
 }
