@@ -44,28 +44,28 @@ You will learn about:
 2. Implement the `bfs_kernel` to perform a single iteration (level) of BFS. It should look at nodes at the current level, check their neighbors, and update the neighbors' distances if they haven't been visited, signaling that a change occurred.
 3. Implement `launch_bfs` to initialize the source node's distance, and iteratively launch your kernel until no new distances are updated.
 4. Make sure `launch_bfs` returns the populated `LaunchMetrics` struct so the test framework can automatically display your kernel's hardware utilization.
-5. Compile using `make` and run `./run_test` to see if you pass the correctness tests and how your performance compares to the reference implementation.
+5. Compile using `make` and run `./bin/run_test` to see if you pass the correctness tests and how your performance compares to the reference implementation.
 
 ## Typical Commands
-The test suite executable `./run_test` supports various command line arguments to help you analyze and debug your kernel.
+The test suite executable `./bin/run_test` supports various command line arguments to help you analyze and debug your kernel.
 
 - **Help Menu**:
   ```bash
-  make && ./run_test -h
+  make && ./bin/run_test -h
   ```
 - **Test a Specific Size** (tests the predefined size closest to the given value, preferring the higher value in a tie):
   ```bash
-  make && ./run_test --size 1024
+  make && ./bin/run_test --size 1024
   ```
 - **Test Sizes Above a Threshold**:
   ```bash
-  make && ./run_test --above 512
+  make && ./bin/run_test --above 512
   ```
 - **Enable Verbose Tracing** (prints detailed setup and launch trace logs):
   ```bash
-  make && ./run_test --verbose
+  make && ./bin/run_test --verbose
   ```
 - **Run the Reference Kernel Only** (verifies correctness of the reference kernel without testing or benchmarking your implementation):
   ```bash
-  make && ./run_test --test_ref_kernel_only
+  make && ./bin/run_test --test_ref_kernel_only
   ```

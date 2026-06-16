@@ -46,28 +46,28 @@ You will learn about:
 3. Use shared memory tiling to optimize memory accesses. Load sub-tiles of `A` and `B` into shared memory, synchronize, and compute partial dot products.
 4. Implement `launch_gemm` to configure the 2D grid and block dimensions, dynamically allocate shared memory (if you didn't statically allocate it), calculate occupancy metrics, and launch your kernel.
 5. Make sure `launch_gemm` returns the populated `LaunchMetrics` struct so the test framework can automatically display your kernel's hardware utilization.
-6. Compile using `make` and run `./run_test` to see if you pass the correctness tests and how your performance compares to the reference implementation.
+6. Compile using `make` and run `./bin/run_test` to see if you pass the correctness tests and how your performance compares to the reference implementation.
 
 ## Typical Commands
-The test suite executable `./run_test` supports various command line arguments to help you analyze and debug your kernel.
+The test suite executable `./bin/run_test` supports various command line arguments to help you analyze and debug your kernel.
 
 - **Help Menu**:
   ```bash
-  make && ./run_test -h
+  make && ./bin/run_test -h
   ```
 - **Test a Specific Size** (tests the predefined size closest to the given value, preferring the higher value in a tie):
   ```bash
-  make && ./run_test --size 1024
+  make && ./bin/run_test --size 1024
   ```
 - **Test Sizes Above a Threshold**:
   ```bash
-  make && ./run_test --above 512
+  make && ./bin/run_test --above 512
   ```
 - **Enable Verbose Tracing** (prints detailed setup and launch trace logs):
   ```bash
-  make && ./run_test --verbose
+  make && ./bin/run_test --verbose
   ```
 - **Run the Reference Kernel Only** (verifies correctness of the reference kernel without testing or benchmarking your implementation):
   ```bash
-  make && ./run_test --test_ref_kernel_only
+  make && ./bin/run_test --test_ref_kernel_only
   ```

@@ -43,28 +43,28 @@ You will learn about:
 2. Implement the `segmented_scan_kernel` (or a combination of kernels) to compute the inclusive prefix sum of array `a` into array `c`, resetting the sum whenever the corresponding element in `flags` is `1`.
 3. Implement `launch_segmented_scan` to configure the grid and block dimensions, calculate occupancy metrics, and return the final `LaunchMetrics`.
 4. Make sure `launch_segmented_scan` returns the populated `LaunchMetrics` struct so the test framework can automatically display your kernel's hardware utilization.
-5. Compile using `make` and run `./run_test` to see if you pass the correctness tests and how your performance compares to the reference implementation.
+5. Compile using `make` and run `./bin/run_test` to see if you pass the correctness tests and how your performance compares to the reference implementation.
 
 ## Typical Commands
-The test suite executable `./run_test` supports various command line arguments to help you analyze and debug your kernel.
+The test suite executable `./bin/run_test` supports various command line arguments to help you analyze and debug your kernel.
 
 - **Help Menu**:
   ```bash
-  make && ./run_test -h
+  make && ./bin/run_test -h
   ```
 - **Test a Specific Size** (tests the predefined size closest to the given value, preferring the higher value in a tie):
   ```bash
-  make && ./run_test --size 16777216
+  make && ./bin/run_test --size 16777216
   ```
 - **Test Sizes Above a Threshold**:
   ```bash
-  make && ./run_test --above 1048576
+  make && ./bin/run_test --above 1048576
   ```
 - **Enable Verbose Tracing** (prints detailed setup and launch trace logs):
   ```bash
-  make && ./run_test --verbose
+  make && ./bin/run_test --verbose
   ```
 - **Run the Reference Kernel Only** (verifies correctness of the reference kernel without testing or benchmarking your implementation):
   ```bash
-  make && ./run_test --test_ref_kernel_only
+  make && ./bin/run_test --test_ref_kernel_only
   ```
