@@ -1,11 +1,16 @@
+
+
 #include "reference_kernel.h"
-#include <cuda_runtime.h>
+
+#include <thrust/copy.h>
 #include <thrust/device_ptr.h>
 #include <thrust/sort.h>
-#include <thrust/copy.h>
 #include <vector>
-#include "../utils/utils.h"
+
+#include <cuda_runtime.h>
+
 #include "../utils/tracer.h"
+#include "../utils/utils.h"
 
 std::vector<LaunchConfig> launch_reference_radix_sort(const int* a, int* c, long long size) {
     global_tracer.trace("Entering launch_reference_radix_sort");

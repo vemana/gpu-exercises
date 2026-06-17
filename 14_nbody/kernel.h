@@ -1,5 +1,7 @@
 #pragma once
+
 #include <vector>
+
 #include "../utils/utils.h"
 
 std::vector<LaunchConfig> launch_nbody(const float* pos_x, const float* pos_y, const float* pos_z, const float* mass, 

@@ -1,8 +1,13 @@
+
+
 #include "reference_kernel.h"
-#include <cuda_runtime.h>
+
 #include <vector>
-#include "../utils/utils.h"
+
+#include <cuda_runtime.h>
+
 #include "../utils/tracer.h"
+#include "../utils/utils.h"
 
 __constant__ float d_filter_const[9];
 

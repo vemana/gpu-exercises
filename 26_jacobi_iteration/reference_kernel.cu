@@ -1,4 +1,10 @@
+
+
 #include "reference_kernel.h"
+
+#include <vector>
+
+#include "../utils/framework.h"
 
 __global__ void jacobi_reference_kernel(const float* u_old, float* u_new, int H, int W) {
     int x = blockIdx.x * blockDim.x + threadIdx.x;

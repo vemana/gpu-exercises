@@ -1,10 +1,15 @@
+
+
 #include "reference_kernel.h"
-#include <cuda_runtime.h>
+
 #include <thrust/device_ptr.h>
 #include <thrust/gather.h>
 #include <vector>
-#include "../utils/utils.h"
+
+#include <cuda_runtime.h>
+
 #include "../utils/tracer.h"
+#include "../utils/utils.h"
 
 std::vector<LaunchConfig> launch_reference_gather(const float* source, float* dest, const int* indices, long long size) {
     global_tracer.trace("Entering launch_reference_gather");

@@ -1,7 +1,11 @@
+
+
 #include "kernel.h"
-#include "../utils/utils.h"
-#include "../utils/tracer.h"
+
 #include <vector>
+
+#include "../utils/tracer.h"
+#include "../utils/utils.h"
 
 __global__ void reduce_kernel(const float* a, float* c, long long size) {
     // TODO: Implement sum reduction using shared memory

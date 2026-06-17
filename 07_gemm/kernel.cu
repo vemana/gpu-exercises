@@ -1,6 +1,11 @@
+
+
 #include "kernel.h"
-#include "../utils/utils.h"
+
+#include <vector>
+
 #include "../utils/tracer.h"
+#include "../utils/utils.h"
 
 __global__ void gemm_kernel(const float* a, const float* b, float* c, long long n) {
     // TODO: Implement tiled matrix multiplication using shared memory

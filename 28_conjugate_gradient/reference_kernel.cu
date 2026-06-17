@@ -1,4 +1,10 @@
+
+
 #include "reference_kernel.h"
+
+#include <vector>
+
+#include "../utils/framework.h"
 
 __global__ void ref_spmv_csr_kernel(int num_rows, const int* row_ptr, const int* col_ind, const float* values, const float* x, float* y) {
     int row = blockIdx.x * blockDim.x + threadIdx.x;
@@ -20,10 +26,12 @@ __global__ void ref_dot_kernel(const float* a, const float* b, float* result, in
         sum = a[tid] * b[tid];
     }
     
+    // Warp-level reduction
     for (int offset = 16; offset > 0; offset /= 2) {
         sum += __shfl_down_sync(0xffffffff, sum, offset);
     }
     
+    // Block-level reduction using shared memory
     __shared__ float shared_sum[32];
     int laneId = threadIdx.x % 32;
     int warpId = threadIdx.x / 32;

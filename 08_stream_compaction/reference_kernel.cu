@@ -1,10 +1,15 @@
+
+
 #include "reference_kernel.h"
-#include <cuda_runtime.h>
-#include <thrust/device_ptr.h>
+
 #include <thrust/copy.h>
+#include <thrust/device_ptr.h>
 #include <vector>
-#include "../utils/utils.h"
+
+#include <cuda_runtime.h>
+
 #include "../utils/tracer.h"
+#include "../utils/utils.h"
 
 struct is_positive {
     __host__ __device__ bool operator()(const int x) {

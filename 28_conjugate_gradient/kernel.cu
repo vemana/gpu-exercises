@@ -1,72 +1,29 @@
+
+
 #include "kernel.h"
 
+#include <vector>
+
+#include "../utils/framework.h"
+
 __global__ void spmv_csr_kernel(int num_rows, const int* row_ptr, const int* col_ind, const float* values, const float* x, float* y) {
-    int row = blockIdx.x * blockDim.x + threadIdx.x;
-    if (row < num_rows) {
-        float dot = 0.0f;
-        int row_start = row_ptr[row];
-        int row_end = row_ptr[row + 1];
-        for (int j = row_start; j < row_end; ++j) {
-            dot += values[j] * x[col_ind[j]];
-        }
-        y[row] = dot;
-    }
+    // TODO: Implement your kernel here
 }
 
 __global__ void dot_kernel(const float* a, const float* b, float* result, int N) {
-    int tid = blockIdx.x * blockDim.x + threadIdx.x;
-    float sum = 0.0f;
-    if (tid < N) {
-        sum = a[tid] * b[tid];
-    }
-    
-    // Warp-level reduction
-    for (int offset = 16; offset > 0; offset /= 2) {
-        sum += __shfl_down_sync(0xffffffff, sum, offset);
-    }
-    
-    // Block-level reduction using shared memory
-    __shared__ float shared_sum[32];
-    int laneId = threadIdx.x % 32;
-    int warpId = threadIdx.x / 32;
-    if (laneId == 0) shared_sum[warpId] = sum;
-    __syncthreads();
-    
-    if (warpId == 0) {
-        sum = (laneId < (blockDim.x / 32)) ? shared_sum[laneId] : 0.0f;
-        for (int offset = 16; offset > 0; offset /= 2) {
-            sum += __shfl_down_sync(0xffffffff, sum, offset);
-        }
-        if (laneId == 0) {
-            atomicAdd(result, sum);
-        }
-    }
+    // TODO: Implement your kernel here
 }
 
 __global__ void init_r_p_kernel(const float* b, const float* Ax, float* r, float* p, int N) {
-    int tid = blockIdx.x * blockDim.x + threadIdx.x;
-    if (tid < N) {
-        float val = b[tid] - Ax[tid];
-        r[tid] = val;
-        p[tid] = val;
-    }
+    // TODO: Implement your kernel here
 }
 
 __global__ void update_x_r_kernel(float* x, float* r, const float* p, const float* Ap, const float* r_dot_r, const float* p_Ap, int N) {
-    int tid = blockIdx.x * blockDim.x + threadIdx.x;
-    if (tid < N) {
-        float alpha = (*r_dot_r) / (*p_Ap);
-        x[tid] += alpha * p[tid];
-        r[tid] -= alpha * Ap[tid];
-    }
+    // TODO: Implement your kernel here
 }
 
 __global__ void update_p_kernel(float* p, const float* r, const float* r_dot_r_new, const float* r_dot_r_old, int N) {
-    int tid = blockIdx.x * blockDim.x + threadIdx.x;
-    if (tid < N) {
-        float beta = (*r_dot_r_new) / (*r_dot_r_old);
-        p[tid] = r[tid] + beta * p[tid];
-    }
+    // TODO: Implement your kernel here
 }
 
 std::vector<LaunchConfig> launch_cg(
@@ -83,6 +40,7 @@ std::vector<LaunchConfig> launch_cg(
     cudaMalloc(&d_r_dot_r_new, sizeof(float));
     cudaMalloc(&d_p_Ap, sizeof(float));
 
+    // TODO: Define grid and block dimensions
     dim3 block(256);
     dim3 grid((N + block.x - 1) / block.x);
 

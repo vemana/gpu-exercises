@@ -1,10 +1,23 @@
+
+
 #include "reference_kernel.h"
-#include <cuda_runtime.h>
-#include <math_functions.h>
+
 #include <algorithm>
+#include <cmath>
+#include <math_functions.h>
+#include <vector>
+
+#include <cuda_runtime.h>
+
+#include "../utils/framework.h"
 #include "../utils/tracer.h"
 
 __global__ void max_pool2d_reference_kernel(const float* input, float* output, long long channels, long long height, long long width) {
+    // REFERENCE IMPLEMENTATION:
+    // This kernel is provided for correctness and reference.
+    // It processes the data according to the mathematical definition of the algorithm.
+    // Pay attention to the thread indexing and boundary checks.
+
     long long out_height = height / 2;
     long long out_width = width / 2;
 

@@ -1,9 +1,14 @@
+
+
 #include "reference_kernel.h"
-#include <cuda_runtime.h>
+
 #include <cub/cub.cuh>
-#include "../utils/utils.h"
-#include "../utils/tracer.h"
 #include <vector>
+
+#include <cuda_runtime.h>
+
+#include "../utils/tracer.h"
+#include "../utils/utils.h"
 
 std::vector<LaunchConfig> launch_reference_reduce(const float* a, float* c, long long size) {
     global_tracer.trace("Entering launch_reference_reduce");

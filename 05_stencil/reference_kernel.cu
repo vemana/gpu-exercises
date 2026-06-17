@@ -1,8 +1,13 @@
+
+
 #include "reference_kernel.h"
-#include <cuda_runtime.h>
+
 #include <vector>
-#include "../utils/utils.h"
+
+#include <cuda_runtime.h>
+
 #include "../utils/tracer.h"
+#include "../utils/utils.h"
 
 __global__ void reference_stencil_kernel(const float* a, float* c, long long size, int radius) {
     extern __shared__ float sdata[];

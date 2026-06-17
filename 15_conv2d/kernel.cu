@@ -1,7 +1,11 @@
+
+
 #include "kernel.h"
+
 #include <vector>
-#include "../utils/utils.h"
+
 #include "../utils/tracer.h"
+#include "../utils/utils.h"
 
 __global__ void conv2d_kernel(const float* a, const float* filter, float* c, long long width, long long height) {
     // TODO: Implement 2D convolution

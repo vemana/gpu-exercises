@@ -1,7 +1,11 @@
+
+
 #include "kernel.h"
+
 #include <vector>
-#include "../utils/utils.h"
+
 #include "../utils/tracer.h"
+#include "../utils/utils.h"
 
 __global__ void bfs_kernel(const int* row_offsets, const int* col_indices, int* distances, long long num_nodes, int current_level, bool* changed) {
     // TODO: Implement one level of BFS

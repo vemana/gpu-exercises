@@ -1,9 +1,22 @@
+
+
 #include "reference_kernel.h"
-#include <cuda_runtime.h>
+
+#include <cmath>
 #include <math_functions.h>
+#include <vector>
+
+#include <cuda_runtime.h>
+
+#include "../utils/framework.h"
 #include "../utils/tracer.h"
 
 __global__ void silu_reference_kernel(const float* input, float* output, long long size) {
+    // REFERENCE IMPLEMENTATION:
+    // This kernel is provided for correctness and reference.
+    // It processes the data according to the mathematical definition of the algorithm.
+    // Pay attention to the thread indexing and boundary checks.
+
     long long idx = blockIdx.x * (long long)blockDim.x + threadIdx.x;
     if (idx < size) {
         float x = input[idx];

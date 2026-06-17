@@ -1,8 +1,13 @@
+
+
 #include "reference_kernel.h"
-#include <cuda_runtime.h>
+
 #include <vector>
-#include "../utils/utils.h"
+
+#include <cuda_runtime.h>
+
 #include "../utils/tracer.h"
+#include "../utils/utils.h"
 
 __global__ void reference_bfs_frontier_kernel(const int* current_frontier, int frontier_size,
                                              const int* row_offsets, const int* col_indices, 

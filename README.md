@@ -61,6 +61,11 @@ To get a feel for how everything works, start with the simplest parallel pattern
 28. [Conjugate Gradient](28_conjugate_gradient/README.md)
 29. [Molecular Dynamics](29_molecular_dynamics/README.md)
 30. [Monte Carlo Integration](30_monte_carlo/README.md)
+31. [PagedAttention](31_paged_attention/README.md)
+32. [MoE Routing](32_moe_routing/README.md)
+33. [Grouped-Query Attention](33_grouped_query_attention/README.md)
+34. [Speculative Decoding](34_speculative_decoding/README.md)
+35. [W8A16 Linear](35_w8a16_linear/README.md)
 
 Sample output from implementing the addition map kernel in a straightforward manner. Run as `make && bin/run_test.sh`
 ```

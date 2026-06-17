@@ -1,15 +1,23 @@
+
+
 #include "kernel.h"
-#include <cuda_runtime.h>
+
 #include <math_functions.h>
+#include <vector>
+
+#include <cuda_runtime.h>
+
+#include "../utils/framework.h"
 #include "../utils/tracer.h"
 
 __global__ void batch_norm_kernel(const float* input, float* output, long long N, long long C, long long H, long long W) {
-    // student implements batch norm here
+    // TODO: Implement your kernel here
 }
 
 std::vector<LaunchConfig> launch_batch_norm(const float* input, float* output, long long N, long long C, long long H, long long W) {
     global_tracer.trace("Entering launch_batch_norm");
     
+    // TODO: Define grid and block dimensions
     int threadsPerBlock = 256;
     long long blocksPerGrid = C;
     

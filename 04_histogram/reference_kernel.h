@@ -1,5 +1,7 @@
 #pragma once
+
 #include <vector>
+
 #include "../utils/utils.h"
 
 std::vector<LaunchConfig> launch_reference_histogram(const int* a, int* bins, long long size, int num_bins);

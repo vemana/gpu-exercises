@@ -1,21 +1,19 @@
-#include "kernel.h"
 
 // Note: HPC applications typically use double precision.
 // We use float here for consistency across the repository exercises.
 
-__global__ void jacobi_kernel(const float* u_old, float* u_new, int H, int W) {
-    int x = blockIdx.x * blockDim.x + threadIdx.x;
-    int y = blockIdx.y * blockDim.y + threadIdx.y;
+#include "kernel.h"
 
-    if (x > 0 && x < W - 1 && y > 0 && y < H - 1) {
-        u_new[y * W + x] = 0.25f * (u_old[(y - 1) * W + x] + u_old[(y + 1) * W + x] + 
-                                    u_old[y * W + x - 1] + u_old[y * W + x + 1]);
-    } else if (x < W && y < H) {
-        u_new[y * W + x] = u_old[y * W + x];
-    }
+#include <vector>
+
+#include "../utils/framework.h"
+
+__global__ void jacobi_kernel(const float* u_old, float* u_new, int H, int W) {
+    // TODO: Implement your kernel here
 }
 
 std::vector<LaunchConfig> launch_jacobi(float* d_u, float* d_u_tmp, int H, int W, int num_iters) {
+    // TODO: Define grid and block dimensions
     dim3 block(16, 16);
     dim3 grid((W + block.x - 1) / block.x, (H + block.y - 1) / block.y);
 

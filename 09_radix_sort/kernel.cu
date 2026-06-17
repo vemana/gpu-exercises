@@ -1,7 +1,11 @@
+
+
 #include "kernel.h"
+
 #include <vector>
-#include "../utils/utils.h"
+
 #include "../utils/tracer.h"
+#include "../utils/utils.h"
 
 __global__ void radix_sort_kernel(const int* a, int* c, long long size) {
     // TODO: Implement radix sort

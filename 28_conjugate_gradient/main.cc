@@ -1,15 +1,19 @@
-#include <iostream>
-#include <vector>
-#include <cmath>
-#include <random>
-#include <cuda_runtime.h>
-#include "../utils/framework.h"
-#include "../utils/argparse.h"
-#include "kernel.h"
-#include "reference_kernel.h"
 
 // Note: HPC applications typically use double precision.
 // We use float here for consistency across the repository exercises.
+
+#include <cmath>
+#include <iostream>
+#include <random>
+#include <vector>
+
+#include <cuda_runtime.h>
+
+#include "../utils/argparse.h"
+#include "../utils/framework.h"
+#include "../utils/tracer.h"
+#include "kernel.h"
+#include "reference_kernel.h"
 
 void generate_laplacian_2d(int nx, int ny, std::vector<int>& row_ptr, std::vector<int>& col_ind, std::vector<float>& values) {
     int N = nx * ny;

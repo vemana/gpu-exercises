@@ -1,9 +1,16 @@
-#include "reference_kernel.h"
-#include <cuda_runtime.h>
-#include <math_functions.h>
-#include "../utils/tracer.h"
 
 // Simple deterministic hash for PRNG (PCG Hash) as requested by user
+
+#include "reference_kernel.h"
+
+#include <math_functions.h>
+#include <vector>
+
+#include <cuda_runtime.h>
+
+#include "../utils/framework.h"
+#include "../utils/tracer.h"
+
 static __device__ unsigned int pcg_hash(unsigned int input) {
     unsigned int state = input * 747796405u + 2891336453u;
     unsigned int word = ((state >> ((state >> 28u) + 4u)) ^ state) * 277803737u;
@@ -11,6 +18,11 @@ static __device__ unsigned int pcg_hash(unsigned int input) {
 }
 
 __global__ void dropout_reference_kernel(const float* input, float* output, long long size, float drop_prob, float scale) {
+    // REFERENCE IMPLEMENTATION:
+    // This kernel is provided for correctness and reference.
+    // It processes the data according to the mathematical definition of the algorithm.
+    // Pay attention to the thread indexing and boundary checks.
+
     long long idx = blockIdx.x * (long long)blockDim.x + threadIdx.x;
     if (idx < size) {
         unsigned int hash_val = pcg_hash((unsigned int)idx);

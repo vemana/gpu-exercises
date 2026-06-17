@@ -1,5 +1,11 @@
+
+
 #include "reference_kernel.h"
+
 #include <math_constants.h>
+#include <vector>
+
+#include "../utils/framework.h"
 
 __device__ unsigned int ref_reverse_bits(unsigned int val, int bits) {
     unsigned int res = __brev(val);
@@ -21,19 +27,23 @@ __global__ void ref_bit_reverse_permutation_kernel(cuFloatComplex* x, int N, int
 __global__ void ref_fft_stage_kernel(cuFloatComplex* x, int N, int stage) {
     int tid = blockIdx.x * blockDim.x + threadIdx.x;
     
-    int m = 1 << stage;
-    int m2 = m >> 1;
+    int m = 1 << stage;         // Size of the sub-problem in this stage (2, 4, 8...)
+    int m2 = m >> 1;            // Half size (1, 2, 4...)
     
+    // Each thread computes one butterfly operation. There are N/2 butterfly operations total.
     if (tid < N / 2) {
-        int k = tid & (m2 - 1);
-        int j = ((tid - k) << 1) + k;
+        // Compute the indices for the butterfly
+        int k = tid & (m2 - 1);       // Index within the block
+        int j = ((tid - k) << 1) + k; // Global index of the even element
         
+        // Compute the twiddle factor: W_m^k = exp(-i * 2 * pi * k / m)
         float theta = -2.0f * CUDART_PI_F * k / m;
         cuFloatComplex W_mk = make_cuFloatComplex(cosf(theta), sinf(theta));
         
         cuFloatComplex t = x[j + m2];
         cuFloatComplex u = x[j];
         
+        // Complex multiply: W_mk * t
         cuFloatComplex W_t = make_cuFloatComplex(
             W_mk.x * t.x - W_mk.y * t.y,
             W_mk.x * t.y + W_mk.y * t.x

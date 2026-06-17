@@ -1,7 +1,11 @@
+
+
 #include "kernel.h"
-#include "../utils/utils.h"
-#include "../utils/tracer.h"
+
 #include <vector>
+
+#include "../utils/tracer.h"
+#include "../utils/utils.h"
 
 __global__ void stencil_kernel(const float* a, float* c, long long size, int radius) {
     // TODO: Implement 1D stencil using shared memory

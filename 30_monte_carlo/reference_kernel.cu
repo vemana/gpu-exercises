@@ -1,5 +1,13 @@
+
+
 #include "reference_kernel.h"
+
+#include <cmath>
+#include <cstdint>
 #include <math_constants.h>
+#include <vector>
+
+#include "../utils/framework.h"
 
 __device__ uint32_t ref_pcg_hash(uint32_t input) {
     uint32_t state = input * 747796405u + 2891336453u;
@@ -22,6 +30,7 @@ __global__ void ref_monte_carlo_kernel(int N, float S0, float K, float r, float 
         float u1 = ref_rand_uniform(state);
         float u2 = ref_rand_uniform(state);
         
+        // Box-Muller transform
         float z = sqrtf(-2.0f * logf(u1)) * cosf(2.0f * CUDART_PI_F * u2);
         
         float drift = (r - 0.5f * sigma * sigma) * T;
@@ -31,6 +40,7 @@ __global__ void ref_monte_carlo_kernel(int N, float S0, float K, float r, float 
         payoff = fmaxf(ST - K, 0.0f);
     }
     
+    // Block-level reduction
     for (int offset = 16; offset > 0; offset /= 2) {
         payoff += __shfl_down_sync(0xffffffff, payoff, offset);
     }

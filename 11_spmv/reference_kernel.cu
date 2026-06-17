@@ -1,9 +1,14 @@
+
+
 #include "reference_kernel.h"
-#include <cuda_runtime.h>
+
 #include <cusparse.h>
 #include <vector>
-#include "../utils/utils.h"
+
+#include <cuda_runtime.h>
+
 #include "../utils/tracer.h"
+#include "../utils/utils.h"
 
 std::vector<LaunchConfig> launch_reference_spmv(const float* values, const int* col_indices, const int* row_offsets, const float* x, float* y, long long n) {
     global_tracer.trace("Entering launch_reference_spmv");

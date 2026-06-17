@@ -1,20 +1,24 @@
+
+
 #include "kernel.h"
-#include <cuda_runtime.h>
+
+#include <cmath>
 #include <math_functions.h>
+#include <vector>
+
+#include <cuda_runtime.h>
+
+#include "../utils/framework.h"
 #include "../utils/tracer.h"
 
 __global__ void silu_kernel(const float* input, float* output, long long size) {
-    long long idx = blockIdx.x * (long long)blockDim.x + threadIdx.x;
-    if (idx < size) {
-        // float x = input[idx];
-        // student implements SiLU here
-        // output[idx] = x / (1.0f + expf(-x));
-    }
+    // TODO: Implement your kernel here
 }
 
 std::vector<LaunchConfig> launch_activation(const float* input, float* output, long long size) {
     global_tracer.trace("Entering launch_activation");
     
+    // TODO: Define grid and block dimensions
     int threadsPerBlock = 256;
     long long blocksPerGrid = (size + threadsPerBlock - 1) / threadsPerBlock;
     

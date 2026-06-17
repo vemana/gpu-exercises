@@ -1,7 +1,18 @@
+
 #include "reference_kernel.h"
+
+#include <cmath>
+#include <vector>
+
+#include "../utils/framework.h"
 
 __global__ void ref_build_cells_kernel(const float2* pos, int* cell_starts, int* particle_next, 
                                        int N, float cutoff_radius, int grid_dim) {
+    // REFERENCE IMPLEMENTATION:
+    // This kernel is provided for correctness and reference.
+    // It processes the data according to the mathematical definition of the algorithm.
+    // Pay attention to the thread indexing and boundary checks.
+
     int i = blockIdx.x * blockDim.x + threadIdx.x;
     if (i < N) {
         float2 p = pos[i];
@@ -17,6 +28,11 @@ __global__ void ref_build_cells_kernel(const float2* pos, int* cell_starts, int*
 __global__ void ref_compute_forces_kernel(const float2* pos, float2* forces, 
                                           const int* cell_starts, const int* particle_next,
                                           int N, float cutoff_radius, int grid_dim) {
+    // REFERENCE IMPLEMENTATION:
+    // This kernel is provided for correctness and reference.
+    // It processes the data according to the mathematical definition of the algorithm.
+    // Pay attention to the thread indexing and boundary checks.
+
     int i = blockIdx.x * blockDim.x + threadIdx.x;
     if (i < N) {
         float2 p_i = pos[i];

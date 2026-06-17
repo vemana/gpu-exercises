@@ -1,9 +1,14 @@
+
+
+#include <cmath>
 #include <iostream>
 #include <vector>
-#include <cmath>
+
 #include <cuda_runtime.h>
-#include "../utils/framework.h"
+
 #include "../utils/argparse.h"
+#include "../utils/framework.h"
+#include "../utils/tracer.h"
 #include "kernel.h"
 #include "reference_kernel.h"
 

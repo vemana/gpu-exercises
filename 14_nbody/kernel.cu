@@ -1,7 +1,11 @@
+
+
 #include "kernel.h"
+
 #include <vector>
-#include "../utils/utils.h"
+
 #include "../utils/tracer.h"
+#include "../utils/utils.h"
 
 __global__ void nbody_kernel(const float* pos_x, const float* pos_y, const float* pos_z, const float* mass, 
                              const float* vel_x_in, const float* vel_y_in, const float* vel_z_in,

@@ -1,11 +1,24 @@
-#include "reference_kernel.h"
-#include <cuda_runtime.h>
-#include <math_functions.h>
-#include "../utils/tracer.h"
 
 // A naive channel-wise implementation for reference (1 block per channel, 1 thread does all reductions)
 // This is not performant but correct for the reference baseline.
+
+#include "reference_kernel.h"
+
+#include <cmath>
+#include <math_functions.h>
+#include <vector>
+
+#include <cuda_runtime.h>
+
+#include "../utils/framework.h"
+#include "../utils/tracer.h"
+
 __global__ void batch_norm_reference_kernel(const float* input, float* output, long long N, long long C, long long H, long long W) {
+    // REFERENCE IMPLEMENTATION:
+    // This kernel is provided for correctness and reference.
+    // It processes the data according to the mathematical definition of the algorithm.
+    // Pay attention to the thread indexing and boundary checks.
+
     long long c = blockIdx.x;
     if (c < C && threadIdx.x == 0) {
         long long spatial_size = H * W;

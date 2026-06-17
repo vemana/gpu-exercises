@@ -1,14 +1,18 @@
-#include <iostream>
-#include <vector>
-#include <cmath>
-#include <cuda_runtime.h>
-#include "../utils/framework.h"
-#include "../utils/argparse.h"
-#include "kernel.h"
-#include "reference_kernel.h"
 
 // Note: HPC applications typically use double precision.
 // We use float here for consistency across the repository exercises.
+
+#include <cmath>
+#include <iostream>
+#include <vector>
+
+#include <cuda_runtime.h>
+
+#include "../utils/argparse.h"
+#include "../utils/framework.h"
+#include "../utils/tracer.h"
+#include "kernel.h"
+#include "reference_kernel.h"
 
 void cpu_baseline(const float* u_initial, float* u_final, int H, int W, int num_iters) {
     std::vector<float> current(u_initial, u_initial + H * W);

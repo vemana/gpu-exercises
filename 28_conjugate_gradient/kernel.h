@@ -1,5 +1,8 @@
 #pragma once
-#include "framework.h"
+
+#include <vector>
+
+#include "../utils/framework.h"
 
 std::vector<LaunchConfig> launch_cg(
     const int* d_row_ptr, const int* d_col_ind, const float* d_values, 

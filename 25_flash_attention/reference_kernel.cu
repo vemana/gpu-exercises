@@ -1,11 +1,24 @@
-#include "reference_kernel.h"
-#include <cuda_runtime.h>
-#include <math_functions.h>
-#include "../utils/tracer.h"
 
 // Reference kernel: 1 thread per row of output (per token in a head in a batch)
 // Not optimized, just for reference correctness
+
+#include "reference_kernel.h"
+
+#include <cmath>
+#include <math_functions.h>
+#include <vector>
+
+#include <cuda_runtime.h>
+
+#include "../utils/framework.h"
+#include "../utils/tracer.h"
+
 __global__ void flash_attention_reference_kernel(const float* q, const float* k, const float* v, float* o, long long B, long long N, long long S, long long D) {
+    // REFERENCE IMPLEMENTATION:
+    // This kernel is provided for correctness and reference.
+    // It processes the data according to the mathematical definition of the algorithm.
+    // Pay attention to the thread indexing and boundary checks.
+
     long long idx = blockIdx.x * (long long)blockDim.x + threadIdx.x;
     long long total_rows = B * N * S;
     

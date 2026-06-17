@@ -1,15 +1,14 @@
+
+
 #include "kernel.h"
-#include "../utils/utils.h"
+
+#include <vector>
+
 #include "../utils/tracer.h"
+#include "../utils/utils.h"
 
 __global__ void map_kernel(const float* a, const float* b, float* c, long long size) {
-  /*
-  long long lane = blockIdx.x * blockDim.x + threadIdx.x;
-  long long stride = blockDim.x * gridDim.x;
-  for (;lane < size; lane += stride) {
-    c[lane] = a[lane] + b[lane];
-  }
-  */
+    // TODO
 }
 
 std::vector<LaunchConfig> launch_map(const float* a, const float* b, float* c, long long size) {

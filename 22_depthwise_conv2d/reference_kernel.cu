@@ -1,9 +1,21 @@
+
+
 #include "reference_kernel.h"
-#include <cuda_runtime.h>
+
 #include <math_functions.h>
+#include <vector>
+
+#include <cuda_runtime.h>
+
+#include "../utils/framework.h"
 #include "../utils/tracer.h"
 
 __global__ void depthwise_conv2d_reference_kernel(const float* input, const float* filter, float* output, long long C, long long H, long long W) {
+    // REFERENCE IMPLEMENTATION:
+    // This kernel is provided for correctness and reference.
+    // It processes the data according to the mathematical definition of the algorithm.
+    // Pay attention to the thread indexing and boundary checks.
+
     long long x = blockIdx.x * (long long)blockDim.x + threadIdx.x;
     long long y = blockIdx.y * (long long)blockDim.y + threadIdx.y;
     long long c = blockIdx.z;

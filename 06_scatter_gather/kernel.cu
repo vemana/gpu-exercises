@@ -1,6 +1,11 @@
+
+
 #include "kernel.h"
-#include "../utils/utils.h"
+
+#include <vector>
+
 #include "../utils/tracer.h"
+#include "../utils/utils.h"
 
 __global__ void gather_kernel(const float* source, float* dest, const int* indices, long long size) {
     // TODO: Implement gather operation

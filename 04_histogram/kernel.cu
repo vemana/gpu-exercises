@@ -1,7 +1,11 @@
+
+
 #include "kernel.h"
-#include "../utils/utils.h"
-#include "../utils/tracer.h"
+
 #include <vector>
+
+#include "../utils/tracer.h"
+#include "../utils/utils.h"
 
 __global__ void histogram_kernel(const int* a, int* bins, long long size, int num_bins) {
     // TODO: Implement histogram using atomics

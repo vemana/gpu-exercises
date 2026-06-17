@@ -1,7 +1,11 @@
+
+
 #include "kernel.h"
-#include "../utils/utils.h"
-#include "../utils/tracer.h"
+
 #include <vector>
+
+#include "../utils/tracer.h"
+#include "../utils/utils.h"
 
 __global__ void compaction_kernel(const int* a, int* c, int* count, long long size) {
     // TODO: Implement stream compaction

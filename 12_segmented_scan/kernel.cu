@@ -1,7 +1,11 @@
+
+
 #include "kernel.h"
+
 #include <vector>
-#include "../utils/utils.h"
+
 #include "../utils/tracer.h"
+#include "../utils/utils.h"
 
 __global__ void segmented_scan_kernel(const float* a, const int* flags, float* c, long long size) {
     // TODO: Implement segmented scan

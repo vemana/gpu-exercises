@@ -1,10 +1,16 @@
-#include <iostream>
-#include <vector>
-#include <random>
+
+
 #include <cmath>
+#include <iostream>
+#include <random>
+#include <vector>
+
 #include <cuda_runtime.h>
-#include "../utils/framework.h"
+
 #include "../utils/argparse.h"
+#include "../utils/framework.h"
+#include "../utils/tracer.h"
+#include "../utils/utils.h"
 #include "kernel.h"
 #include "reference_kernel.h"
 
