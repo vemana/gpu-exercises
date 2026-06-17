@@ -18,10 +18,22 @@ To build and run these exercises, you will need the following installed on your 
 Every exercise in this repository represents a distinct foundational algorithmic pattern. They are designed so you can focus entirely on writing high-performance kernels without worrying about the boilerplate of setting up test harnesses, data generation, or CPU baselines.
 
 Each exercise directory contains:
-1. **Your Workspace (`kernel.cu`)**: You are tasked with implementing a specific kernel (or sequence of kernels) to solve the problem.
-2. **The Scaffold / Test Harness**: A pre-built `main.cc` that handles compiling, running, and verifying your kernel. 
-3. **The Reference Kernel (`reference_kernel.cu`)**: A highly optimized reference implementation. The scaffold automatically compares your implementation's correctness and performance against this gold standard.
-4. **Occupancy & Utilization Metrics**: As you test your kernel, the test scaffold will output detailed hardware utilization metrics (like Shared Memory limits, Register bottlenecks, and Block allocations per Streaming Multiprocessor). This immediate feedback loop is designed to help you analyze *why* your kernel is slow and how to tweak your grid sizing or memory accesses to improve it.
+
+1. **Your Workspace (`kernel.cu`)**: You are tasked with implementing a specific kernel (or a
+   collection of kernels) to solve the problem.
+2. **The Scaffold / Test Harness**: `main.cc` handles compiling, running, verifying and timing your
+   kernel.
+3. **The CPU Baseline (`main.cc`)**: CPU implementation of the algorithm. The scaffold checks the
+   reference CUDA kernel (see below) against this CPU baseline for correctness.
+4. **The Reference Kernel (`reference_kernel.cu`)**: An optimized reference implementation. The
+   scaffold compares your kernel's correctness and performance against it. Note that the CPU kernel
+   would be too slow on larger problem sizes; so, your kernel is evaluated against the reference
+   kernel, which in turn is verified against the cpu implementation.
+5. **Occupancy & Utilization Metrics**: If you ask for it, the test scaffold outputs detailed
+   hardware utilization metrics (like Shared Memory limits, Register bottlenecks, and Block
+   allocations per Streaming Multiprocessor). This immediate feedback loop is designed to help you
+   analyze *why* your kernel is slow and how to tweak your grid sizing or memory accesses to improve
+   it. See the sample commands in the exercises for various ways to run your kernels.
 
 ## Getting Started
 
@@ -31,41 +43,48 @@ To get a feel for how everything works, start with the simplest parallel pattern
 
 ### Available Exercises
 
-1. [Map](01_map/README.md)
-2. [Reduce](02_reduce/README.md)
-3. [Scan](03_scan/README.md)
-4. [Histogram](04_histogram/README.md)
-5. [Stencil](05_stencil/README.md)
-6. [Scatter Gather](06_scatter_gather/README.md)
-7. [GEMM](07_gemm/README.md)
-8. [Stream Compaction](08_stream_compaction/README.md)
-9. [Radix Sort](09_radix_sort/README.md)
-10. [BFS](10_bfs/README.md)
-11. [SpMV](11_spmv/README.md)
-12. [Segmented Scan](12_segmented_scan/README.md)
-13. [Merge Sort](13_merge_sort/README.md)
-14. [N-Body](14_nbody/README.md)
-15. [Conv2D](15_conv2d/README.md)
-16. [Activation](16_activation/README.md)
-17. [Max Pool 2D](17_max_pool2d/README.md)
-18. [Layer Norm](18_layer_norm/README.md)
-19. [Batch Norm](19_batch_norm/README.md)
-20. [Softmax](20_softmax/README.md)
-21. [Im2Col](21_im2col/README.md)
-22. [Depthwise Conv2D](22_depthwise_conv2d/README.md)
-23. [Dropout](23_dropout/README.md)
-24. [RoPE](24_rope/README.md)
-25. [Flash Attention](25_flash_attention/README.md)
-26. [Jacobi Iteration](26_jacobi_iteration/README.md)
-27. [Fast Fourier Transform](27_fft/README.md)
-28. [Conjugate Gradient](28_conjugate_gradient/README.md)
-29. [Molecular Dynamics](29_molecular_dynamics/README.md)
-30. [Monte Carlo Integration](30_monte_carlo/README.md)
-31. [PagedAttention](31_paged_attention/README.md)
-32. [MoE Routing](32_moe_routing/README.md)
-33. [Grouped-Query Attention](33_grouped_query_attention/README.md)
-34. [Speculative Decoding](34_speculative_decoding/README.md)
-35. [W8A16 Linear](35_w8a16_linear/README.md)
+| Exercise | Problem Description | Primary Skills Learnt |
+| --- | --- | --- |
+| 1. [Map](01_map/README.md) | Point-wise vector addition | Launching kernels, thread IDs, memory coalescing |
+| 2. [Reduce](02_reduce/README.md) | Parallel sum reduction | Shared memory, tree reduction, warp-level primitives |
+| 3. [Scan](03_scan/README.md) | Inclusive/exclusive prefix sum | Work-efficient algorithms, Kogge-Stone/Blelloch, double buffering |
+| 4. [Histogram](04_histogram/README.md) | Frequency counting of elements | Atomic operations, privatization in shared memory |
+| 5. [Stencil](05_stencil/README.md) | 1D/2D grid-based neighborhood operations | Ghost cells, 2D blocks, shared memory caching |
+| 6. [Scatter Gather](06_scatter_gather/README.md) | Indirect memory access patterns | Dealing with uncoalesced memory, sparse data access |
+| 7. [GEMM](07_gemm/README.md) | General Matrix Multiplication | Tiling, register blocking, memory bus saturation |
+| 8. [Stream Compaction](08_stream_compaction/README.md) | Filtering elements matching a condition | Scan + Scatter, predication |
+| 9. [Radix Sort](09_radix_sort/README.md) | Sorting elements by bit-level keys | Scan, scatter, bitwise operations |
+| 10. [BFS](10_bfs/README.md) | Breadth-First Search on a graph | Frontier queues, atomic queues, dynamic parallelism |
+| 11. [SpMV](11_spmv/README.md) | Sparse Matrix-Vector Multiplication | CSR/COO formats, warp divergence handling |
+| 12. [Segmented Scan](12_segmented_scan/README.md) | Independent prefix sums across subarrays | Head flags, warp shuffling, block-level synchronization |
+| 13. [Merge Sort](13_merge_sort/README.md) | Parallel sorting algorithm | Merge path algorithm, binary search on GPU |
+| 14. [N-Body](14_nbody/README.md) | All-pairs gravitational interactions | Tiling to reduce memory bandwidth, math pipelining |
+| 15. [Conv2D](15_conv2d/README.md) | 2D Image Convolution | 2D tiling, constant memory for filters |
+| 16. [Activation](16_activation/README.md) | Neural network non-linearities (e.g., ReLU) | Element-wise operations, vectorized loads (float4) |
+| 17. [Max Pool 2D](17_max_pool2d/README.md) | Spatial downsampling for CNNs | Windowed reduction, boundary/edge handling |
+| 18. [Layer Norm](18_layer_norm/README.md) | Normalization across feature dimension | Block-wide reductions, numerical stability (Welford's) |
+| 19. [Batch Norm](19_batch_norm/README.md) | Normalization across batch dimension | Global reduction, atomic adds vs two-pass algorithms |
+| 20. [Softmax](20_softmax/README.md) | Probability distribution scaling | Max reduction, sum reduction, fast math intrinsics |
+| 21. [Im2Col](21_im2col/README.md) | Image to column transformation for convolutions | Tensor reshaping, memory coalescing for GEMM |
+| 22. [Depthwise Conv2D](22_depthwise_conv2d/README.md) | Independent channel convolution | Specialized 2D kernels, avoiding memory bounds |
+| 23. [Dropout](23_dropout/README.md) | Randomized neural network regularization | Philox random number generation, bit packing |
+| 24. [RoPE](24_rope/README.md) | Rotary Positional Embeddings for Transformers | Complex numbers, sinusoidal embedding, token-wise parallelism |
+| 25. [Flash Attention](25_flash_attention/README.md) | Memory-efficient exact attention | Tiling the $O(N^2)$ matrix, online softmax, SRAM management |
+| 26. [Jacobi Iteration](26_jacobi_iteration/README.md) | Iterative PDE solver | CUDA Graphs, multi-step synchronization |
+| 27. [Fast Fourier Transform](27_fft/README.md) | Signal processing frequency domain | Cooley-Tukey, bit-reversal, shared memory bank conflicts |
+| 28. [Conjugate Gradient](28_conjugate_gradient/README.md) | Sparse linear solver | SpMV + Dot product pipelines, cuBLAS integration |
+| 29. [Molecular Dynamics](29_molecular_dynamics/README.md) | Particle simulation with cutoff radii | Cell-linked lists, spatial hashing, neighbor lists |
+| 30. [Monte Carlo Integration](30_monte_carlo/README.md) | Stochastic area simulation | cuRAND, massive parallel reduction |
+| 31. [PagedAttention](31_paged_attention/README.md) | LLM KV Cache memory management | Block tables, non-contiguous memory management |
+| 32. [MoE Routing](32_moe_routing/README.md) | Mixture of Experts token routing | Top-K algorithms, sorting, dynamic dispatch |
+| 33. [Grouped-Query Attention](33_grouped_query_attention/README.md) | LLM inference attention mechanism | Broadcast semantics, shared KV cache, memory bandwidth optimization |
+| 34. [Speculative Decoding](34_speculative_decoding/README.md) | Fast LLM multi-token decoding | Prefix matching, parallel verification |
+| 35. [W8A16 Linear](35_w8a16_linear/README.md) | Quantized matrix math | Mixed precision, `dp4a` dot product, dequantization |
+| 36. [Split-K Flash Decoding](36_split_k_flash_decoding/README.md) | Long-context LLM inference | Sequence dimension splitting, parallel global reductions |
+| 37. [BitNet Ternary MatMul](37_bitnet_ternary_matmul/README.md) | Extreme 1.58-bit ternary quantized networks | Bit packing, sub-byte extraction, avoiding FMA units |
+| 38. [Parallel Associative Scan](38_parallel_associative_scan/README.md) | Mamba / State Space Models recurrence | Custom associative operators, prefix scan for sequential dependencies |
+| 39. [Sliding Window Attention](39_sliding_window_attention/README.md) | Banded block-sparse attention (Mistral) | Banded diagonal masking, loop boundary optimization |
+| 40. [Fused SwiGLU MLP](40_fused_swiglu/README.md) | Memory-bandwidth optimized activation functions | Kernel fusion, bandwidth bound optimization |
 
 Sample output from implementing the addition map kernel in a straightforward manner. Run as `make && bin/run_test.sh`
 ```
@@ -223,8 +242,11 @@ sm__pipe_fma_cycles_active.avg.pct_of_peak_sustained_elapsed
 
 All the code in this repository has been generated and refined using **Antigravity** and **Gemini 3.1 Pro**.
 
-- [Exercise 36: Split-K Flash Decoding](./36_split_k_flash_decoding) - Optimizing LLM generation via Split-K.
-- [Exercise 37: BitNet Ternary MatMul](./37_bitnet_ternary_matmul) - Extreme 1.58-bit ternary quantized networks.
-- [Exercise 38: Parallel Associative Scan](./38_parallel_associative_scan) - Mamba / State Space Models recurrence.
-- [Exercise 39: Sliding Window Attention](./39_sliding_window_attention) - Banded block-sparse attention (Mistral).
-- [Exercise 40: Fused SwiGLU MLP](./40_fused_swiglu) - Memory-bandwidth optimized activation functions.
+
+## Is this AI slop?
+
+Since most of this code is generated via **Antigravity** it's natural to ask what of this repo 
+is actually believable and what is not. By comparing the reference kernel impl against the 
+cpu implementation, there's a good chance that the reference kernel is working as expected. The 
+two models of computation are so widely far apart that a coincidence is unlikely. Besides, as 
+the exercises are attempted, any bugs will get ironed out.
