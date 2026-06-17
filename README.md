@@ -29,6 +29,34 @@ To get a feel for how everything works, start with the simplest parallel pattern
 
 👉 **[Click here to open the Map Exercise and begin!](01_map/README.md)**
 
+### Available Exercises
+
+1. [Map](01_map/README.md)
+2. [Reduce](02_reduce/README.md)
+3. [Scan](03_scan/README.md)
+4. [Histogram](04_histogram/README.md)
+5. [Stencil](05_stencil/README.md)
+6. [Scatter Gather](06_scatter_gather/README.md)
+7. [GEMM](07_gemm/README.md)
+8. [Stream Compaction](08_stream_compaction/README.md)
+9. [Radix Sort](09_radix_sort/README.md)
+10. [BFS](10_bfs/README.md)
+11. [SpMV](11_spmv/README.md)
+12. [Segmented Scan](12_segmented_scan/README.md)
+13. [Merge Sort](13_merge_sort/README.md)
+14. [N-Body](14_nbody/README.md)
+15. [Conv2D](15_conv2d/README.md)
+16. [Activation](16_activation/README.md)
+17. [Max Pool 2D](17_max_pool2d/README.md)
+18. [Layer Norm](18_layer_norm/README.md)
+19. [Batch Norm](19_batch_norm/README.md)
+20. [Softmax](20_softmax/README.md)
+21. [Im2Col](21_im2col/README.md)
+22. [Depthwise Conv2D](22_depthwise_conv2d/README.md)
+23. [Dropout](23_dropout/README.md)
+24. [RoPE](24_rope/README.md)
+25. [Flash Attention](25_flash_attention/README.md)
+
 Sample output from implementing the addition map kernel in a straightforward manner. Run as `make && bin/run_test.sh`
 ```
 ================================================================================
