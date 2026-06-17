@@ -6,9 +6,9 @@
 **Sample Input/Output:** 
 - Input: We have an `int8` weight chunk `[-50, 127]`. The scaling factor for this group is `0.01`. The input activation vector $X$ is `[2.0, 1.0]`.
 - Operation: Dequantize the weights on the fly during the dot product: 
-  - $W_0 = -50 	imes 0.01 = -0.5$
-  - $W_1 = 127 	imes 0.01 = 1.27$
-  - Dot Product = $(2.0 	imes -0.5) + (1.0 	imes 1.27) = 0.27$.
+  - $W_0 = -50 \times 0.01 = -0.5$
+  - $W_1 = 127 \times 0.01 = 1.27$
+  - Dot Product = $(2.0 \times -0.5) + (1.0 \times 1.27) = 0.27$.
 - Output: The output feature value $Y = 0.27$.
 
 **Practical Importance:** 

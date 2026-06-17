@@ -13,7 +13,7 @@
   [[[[-1.34, -0.44]]], [[[0.44, 1.34]]]]
   ```
 
-**Practical Importance:** BatchNorm is standard in vision models like ResNet. It requires reducing a massive number of elements (batch $	imes$ spatial) into a single mean and variance per channel, testing global reduction capabilities.
+**Practical Importance:** BatchNorm is standard in vision models like ResNet. It requires reducing a massive number of elements (batch $\times$ spatial) into a single mean and variance per channel, testing global reduction capabilities.
 
 
 > [!TIP]

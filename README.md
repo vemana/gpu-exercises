@@ -222,3 +222,9 @@ sm__pipe_fma_cycles_active.avg.pct_of_peak_sustained_elapsed
 ## Acknowledgements
 
 All the code in this repository has been generated and refined using **Antigravity** and **Gemini 3.1 Pro**.
+
+- [Exercise 36: Split-K Flash Decoding](./36_split_k_flash_decoding) - Optimizing LLM generation via Split-K.
+- [Exercise 37: BitNet Ternary MatMul](./37_bitnet_ternary_matmul) - Extreme 1.58-bit ternary quantized networks.
+- [Exercise 38: Parallel Associative Scan](./38_parallel_associative_scan) - Mamba / State Space Models recurrence.
+- [Exercise 39: Sliding Window Attention](./39_sliding_window_attention) - Banded block-sparse attention (Mistral).
+- [Exercise 40: Fused SwiGLU MLP](./40_fused_swiglu) - Memory-bandwidth optimized activation functions.

@@ -1,7 +1,7 @@
 
 ---- Use as reminder----
 For each exercise,
-(1) Follow IWYU pattern but keep it lightweight by including the self-header first.
+(1) Follow IWYU pattern but keep it lightweight by including the self-header first approach.
 (2) In each exercise's README.md, comment generously in the following sections:
    (a) Newbie Guidance. Be extremely generous here. It can be daunting otherwise. Pave the onramp.
    (b) References. Include a fair few papers/book chapters but order them by importance.
@@ -14,4 +14,5 @@ For each exercise,
 
 Before you complete your work
 (1) update the top level README.md with any newly added exercises
-(2) Ensure all tests pass with the `--test_ref_kernel_only` flag
+(2) Ensure everything builds and runs with `make && bin/run_test.sh --test_ref_kernel_only` flag
+(3) Regenerate compile_commands.json

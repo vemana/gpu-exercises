@@ -9,7 +9,7 @@
 - Output: The correctly mapped context vector utilizing the broadcasted KV states.
 
 **Practical Importance:** 
-GQA is the de-facto standard for all modern frontier models, including Llama-3, Mistral, and Gemma. By reducing the number of KV heads, the memory footprint of the KV cache drops by $8	imes$ (if ratio is 8). This allows larger batch sizes to be served on a single GPU, drastically improving memory-bound throughput and lowering cloud costs.
+GQA is the de-facto standard for all modern frontier models, including Llama-3, Mistral, and Gemma. By reducing the number of KV heads, the memory footprint of the KV cache drops by $8\times$ (if ratio is 8). This allows larger batch sizes to be served on a single GPU, drastically improving memory-bound throughput and lowering cloud costs.
 
 **Historical Anecdotes:** 
 GQA was popularized by Ainslie et al. (Google Research) in 2023. They proved that GQA achieves quality nearly identical to MHA but with the blazing fast inference speed of MQA. Almost overnight, the entire open-weight AI community abandoned standard MHA in favor of GQA.
