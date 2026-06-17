@@ -56,6 +56,11 @@ To get a feel for how everything works, start with the simplest parallel pattern
 23. [Dropout](23_dropout/README.md)
 24. [RoPE](24_rope/README.md)
 25. [Flash Attention](25_flash_attention/README.md)
+26. [Jacobi Iteration](26_jacobi_iteration/README.md)
+27. [Fast Fourier Transform](27_fft/README.md)
+28. [Conjugate Gradient](28_conjugate_gradient/README.md)
+29. [Molecular Dynamics](29_molecular_dynamics/README.md)
+30. [Monte Carlo Integration](30_monte_carlo/README.md)
 
 Sample output from implementing the addition map kernel in a straightforward manner. Run as `make && bin/run_test.sh`
 ```

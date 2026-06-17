@@ -1,0 +1,6 @@
+#pragma once
+#include "framework.h"
+
+std::vector<LaunchConfig> launch_md(
+    const float2* d_pos, float2* d_forces, 
+    int N, float domain_size, float cutoff_radius);
