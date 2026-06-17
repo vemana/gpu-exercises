@@ -20,6 +20,10 @@
 
 **Practical Importance:** Pooling is a foundational operation in Convolutional Neural Networks (CNNs). It provides translation invariance and reduces computational cost for subsequent layers.
 
+
+> [!TIP]
+> **CPU Baseline:** A reference CPU implementation is available in the [`cpu_baseline`](main.cc) method of the `main.cc` file. Use this to understand the underlying logic before parallelizing it!
+
 ## Newbie Guidance
 **Typical CUDA Techniques:** 
 - **2D Grid Mapping:** Map 2D output coordinates to CUDA block and thread indices.

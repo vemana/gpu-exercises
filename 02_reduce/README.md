@@ -16,6 +16,10 @@
 - *Optimizing Parallel Reduction in CUDA* by Mark Harris (NVIDIA): A classic, definitive guide on tree-based reductions.
 - *Programming Massively Parallel Processors* (Chapter: Parallel Patterns: Reduction)
 
+
+> [!TIP]
+> **CPU Baseline:** A reference CPU implementation is available in the [`cpu_baseline`](main.cc) method of the `main.cc` file. Use this to understand the underlying logic before parallelizing it!
+
 ## Newbie Guidance
 **Typical CUDA Techniques:**
 - **Shared Memory:** A naive reduction constantly writes to global memory. A fast reduction pulls a tile of data into shared memory, reduces it locally within a thread block, and only writes the block's single partial sum back to global memory.

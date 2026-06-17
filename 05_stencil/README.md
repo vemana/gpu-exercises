@@ -16,6 +16,10 @@
 - *Programming Massively Parallel Processors* (Chapter: Parallel Patterns: Stencil Computation)
 - [Wikipedia: Stencil Code](https://en.wikipedia.org/wiki/Stencil_code)
 
+
+> [!TIP]
+> **CPU Baseline:** A reference CPU implementation is available in the [`cpu_baseline`](main.cc) method of the `main.cc` file. Use this to understand the underlying logic before parallelizing it!
+
 ## Newbie Guidance
 **Typical CUDA Techniques:**
 - **Shared Memory Tiling + Halos:** Stencil operations exhibit massive data reuse (overlapping windows). Load a "tile" of the input array into shared memory, including the necessary boundary regions (the "halo"). Synchronize (`__syncthreads()`), and then let all threads in the block compute their stencil from the ultra-fast shared memory.

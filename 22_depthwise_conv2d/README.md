@@ -22,6 +22,10 @@
 
 **Practical Importance:** Depthwise convolutions drastically reduce the number of parameters and computations compared to standard convolutions. They are the core building block of efficient mobile architectures like MobileNet.
 
+
+> [!TIP]
+> **CPU Baseline:** A reference CPU implementation is available in the [`cpu_baseline`](main.cc) method of the `main.cc` file. Use this to understand the underlying logic before parallelizing it!
+
 ## Newbie Guidance
 **Typical CUDA Techniques:** 
 - **Shared Memory Caching:** Load a tile of the input image and the filter into shared memory to reduce redundant global memory loads for overlapping patches.

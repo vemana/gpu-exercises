@@ -17,6 +17,10 @@
 
 **Practical Importance:** LayerNorm is a vital component of Transformer models. It stabilizes training by preventing extreme activations. Since it requires reducing across the hidden dimension, it is typically memory-bound but requires intra-block communication.
 
+
+> [!TIP]
+> **CPU Baseline:** A reference CPU implementation is available in the [`cpu_baseline`](main.cc) method of the `main.cc` file. Use this to understand the underlying logic before parallelizing it!
+
 ## Newbie Guidance
 **Typical CUDA Techniques:** 
 - **Block/Warp Reductions:** Use shared memory or warp shuffle instructions (e.g., `__shfl_down_sync`) to efficiently sum elements across a block.

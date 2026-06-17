@@ -16,6 +16,10 @@
 - *Programming Massively Parallel Processors* (Chapter: Convolution)
 - *ImageNet Classification with Deep Convolutional Neural Networks* by Krizhevsky, Sutskever, and Hinton (2012)
 
+
+> [!TIP]
+> **CPU Baseline:** A reference CPU implementation is available in the [`cpu_baseline`](main.cc) method of the `main.cc` file. Use this to understand the underlying logic before parallelizing it!
+
 ## Newbie Guidance
 **Typical CUDA Techniques:**
 - **Constant Memory:** The convolution filter (e.g., a 3x3 or 5x5 matrix) is small, read-only, and accessed simultaneously by all threads. Store it in `__constant__` memory, which has a specialized hardware broadcast cache that makes it incredibly fast for this specific access pattern.

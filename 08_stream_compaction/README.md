@@ -16,6 +16,10 @@
 - *Programming Massively Parallel Processors* (Chapter: Parallel Patterns: Stream Compaction)
 - GPU Gems 3, Chapter 39: *Parallel Prefix Sum (Scan) with CUDA*
 
+
+> [!TIP]
+> **CPU Baseline:** A reference CPU implementation is available in the [`cpu_baseline`](main.cc) method of the `main.cc` file. Use this to understand the underlying logic before parallelizing it!
+
 ## Newbie Guidance
 **Typical CUDA Techniques:**
 - **Scan-then-Scatter:** The standard implementation involves: 1) Evaluate the condition to a boolean array. 2) Perform an Exclusive Prefix Sum (Scan) on the boolean array to compute the exact destination index for every valid element. 3) Scatter the valid elements to their new indices.

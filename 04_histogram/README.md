@@ -16,6 +16,10 @@
 - *Programming Massively Parallel Processors* (Chapter: Parallel Patterns: Histogram Computation)
 - NVIDIA CUDA C++ Programming Guide (Section on Atomic Functions)
 
+
+> [!TIP]
+> **CPU Baseline:** A reference CPU implementation is available in the [`cpu_baseline`](main.cc) method of the `main.cc` file. Use this to understand the underlying logic before parallelizing it!
+
 ## Newbie Guidance
 **Typical CUDA Techniques:**
 - **Privatized Histograms:** Instead of thousands of threads hammering the same global memory bins using `atomicAdd` (which causes terrible serialization), have each thread block compute a local "private" histogram in its shared memory first. Then, safely atomic-add the shared memory bins into the global memory bins at the end.

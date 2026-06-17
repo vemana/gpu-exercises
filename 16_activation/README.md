@@ -9,6 +9,10 @@
 
 **Practical Importance:** SiLU is widely used in modern LLMs like LLaMA and Mistral. Because it is an element-wise operation, it is heavily memory-bound. Optimizing element-wise operations is crucial because they occupy a non-trivial fraction of total execution time in deep networks.
 
+
+> [!TIP]
+> **CPU Baseline:** A reference CPU implementation is available in the [`cpu_baseline`](main.cc) method of the `main.cc` file. Use this to understand the underlying logic before parallelizing it!
+
 ## Newbie Guidance
 **Typical CUDA Techniques:** 
 - **Memory Coalescing:** Ensure adjacent threads read/write adjacent elements.

@@ -17,6 +17,10 @@
 - [NVIDIA cuBLAS Documentation](https://developer.nvidia.com/cublas)
 - *Anatomy of High-Performance Matrix Multiplication* by Kazushige Goto and Robert A. van de Geijn
 
+
+> [!TIP]
+> **CPU Baseline:** A reference CPU implementation is available in the [`cpu_baseline`](main.cc) method of the `main.cc` file. Use this to understand the underlying logic before parallelizing it!
+
 ## Newbie Guidance
 **Typical CUDA Techniques:**
 - **Hierarchical Tiling:** The key to a fast GEMM is maximizing the math-to-memory ratio. This requires tiling Matrix A and Matrix B into Shared Memory to share them among threads in a block, and further tiling them into Registers to share them across individual thread computations.

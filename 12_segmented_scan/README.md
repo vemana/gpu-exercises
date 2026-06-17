@@ -16,6 +16,10 @@
 - Guy Blelloch's thesis: *Vector Models for Data-Parallel Computing*
 - *CUDPP: CUDA Data Parallel Primitives Library*
 
+
+> [!TIP]
+> **CPU Baseline:** A reference CPU implementation is available in the [`cpu_baseline`](main.cc) method of the `main.cc` file. Use this to understand the underlying logic before parallelizing it!
+
 ## Newbie Guidance
 **Typical CUDA Techniques:**
 - **Flag Logic:** A segmented scan is just a regular exclusive/inclusive scan, but the addition operator is modified: `if (flag_b == 1) sum = val_b; else sum = val_a + val_b;`. 

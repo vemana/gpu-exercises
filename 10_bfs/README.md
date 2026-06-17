@@ -17,6 +17,10 @@
 - [Graph500 Benchmark](https://graph500.org/)
 - *Accelerating large graph algorithms on the GPU using CUDA* by P. Harish and P. J. Narayanan
 
+
+> [!TIP]
+> **CPU Baseline:** A reference CPU implementation is available in the [`cpu_baseline`](main.cc) method of the `main.cc` file. Use this to understand the underlying logic before parallelizing it!
+
 ## Newbie Guidance
 **Typical CUDA Techniques:**
 - **Frontier Queues:** BFS requires keeping track of the "frontier" (nodes currently being visited). You need to maintain two queues: `current_frontier` and `next_frontier`. Threads pull nodes from the current queue, examine neighbors, and use `atomicAdd` to push unvisited neighbors onto the next queue.

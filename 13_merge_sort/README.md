@@ -17,6 +17,10 @@
 - *Merge Path - A Visually Intuitive Approach to Parallel Merging* by Oded Green et al.
 - *Programming Massively Parallel Processors* (Chapter: Parallel Patterns: Merge Sort)
 
+
+> [!TIP]
+> **CPU Baseline:** A reference CPU implementation is available in the [`cpu_baseline`](main.cc) method of the `main.cc` file. Use this to understand the underlying logic before parallelizing it!
+
 ## Newbie Guidance
 **Typical CUDA Techniques:**
 - **Merge Path Algorithm:** To parallelize merging two sorted arrays, you can't just split the arrays randomly. You must use binary search to find the "Merge Path" — the exact indices in Array A and Array B that divide the elements perfectly into equal chunks for each thread block.

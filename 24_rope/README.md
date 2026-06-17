@@ -11,6 +11,10 @@
 
 **Practical Importance:** RoPE is the standard positional encoding used in modern LLMs (LLaMA, PaLM, etc.). It enables better length extrapolation compared to absolute positional embeddings.
 
+
+> [!TIP]
+> **CPU Baseline:** A reference CPU implementation is available in the [`cpu_baseline`](main.cc) method of the `main.cc` file. Use this to understand the underlying logic before parallelizing it!
+
 ## Newbie Guidance
 **Typical CUDA Techniques:** 
 - **Trigonometric Math:** Extensive use of `sin` and `cos`. Use CUDA intrinsics (`__sincosf`) to compute both simultaneously for better performance.

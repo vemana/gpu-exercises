@@ -16,6 +16,10 @@
 - *Programming Massively Parallel Processors* by David B. Kirk and Wen-mei W. Hwu (Chapter 2: Data Parallel Computing)
 - Google's original 2004 MapReduce paper: [MapReduce: Simplified Data Processing on Large Clusters](https://research.google/pubs/pub62/)
 
+
+> [!TIP]
+> **CPU Baseline:** A reference CPU implementation is available in the [`cpu_baseline`](main.cc) method of the `main.cc` file. Use this to understand the underlying logic before parallelizing it!
+
 ## Newbie Guidance
 **Typical CUDA Techniques:** 
 - **Memory Coalescing:** The most critical optimization here. Ensure that adjacent threads in a warp access adjacent memory addresses in global memory. If `A` and `B` are accessed contiguously, the hardware can combine multiple memory requests into a single transaction.

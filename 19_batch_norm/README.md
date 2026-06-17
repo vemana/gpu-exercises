@@ -15,6 +15,10 @@
 
 **Practical Importance:** BatchNorm is standard in vision models like ResNet. It requires reducing a massive number of elements (batch $	imes$ spatial) into a single mean and variance per channel, testing global reduction capabilities.
 
+
+> [!TIP]
+> **CPU Baseline:** A reference CPU implementation is available in the [`cpu_baseline`](main.cc) method of the `main.cc` file. Use this to understand the underlying logic before parallelizing it!
+
 ## Newbie Guidance
 **Typical CUDA Techniques:** 
 - **Grid-Level Reductions:** Requires synchronizing across multiple blocks or using atomic operations, since one block usually isn't enough to process the entire batch and spatial dimension for a single channel.

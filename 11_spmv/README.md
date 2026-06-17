@@ -16,6 +16,10 @@
 - *Programming Massively Parallel Processors* (Chapter: Sparse Matrix Computation)
 - *Efficient Sparse Matrix-Vector Multiplication on CUDA* by Nathan Bell and Michael Garland
 
+
+> [!TIP]
+> **CPU Baseline:** A reference CPU implementation is available in the [`cpu_baseline`](main.cc) method of the `main.cc` file. Use this to understand the underlying logic before parallelizing it!
+
 ## Newbie Guidance
 **Typical CUDA Techniques:**
 - **Load Balancing (Vector vs. Scalar CSR):** A naive approach assigns one thread per row (Scalar CSR). If one row has 1,000 non-zeros and another has 2, that warp is severely divergent. A better approach (Vector CSR) assigns a whole warp to process a single row, performing a parallel reduction to sum the row's dot product.

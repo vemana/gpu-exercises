@@ -15,6 +15,10 @@
 - Guy E. Blelloch's 1990 paper: [Prefix Sums and Their Applications](https://www.cs.cmu.edu/~guyb/papers/Ble93.pdf)
 - GPU Gems 3, Chapter 39: *Parallel Prefix Sum (Scan) with CUDA* by Mark Harris
 
+
+> [!TIP]
+> **CPU Baseline:** A reference CPU implementation is available in the [`cpu_baseline`](main.cc) method of the `main.cc` file. Use this to understand the underlying logic before parallelizing it!
+
 ## Newbie Guidance
 **Typical CUDA Techniques:**
 - **Double Buffering:** In shared memory, use double buffering (ping-ponging between two arrays) to prevent read-after-write hazards during the iterative steps of a scan without needing massive numbers of barrier synchronizations.

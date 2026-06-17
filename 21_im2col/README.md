@@ -21,6 +21,10 @@
 
 **Practical Importance:** Instead of writing complex nested loops for 2D convolutions, Im2Col allows convolution to be computed as a single large, highly-optimized General Matrix Multiplication (GEMM). This is how most deep learning frameworks implement convolutions under the hood.
 
+
+> [!TIP]
+> **CPU Baseline:** A reference CPU implementation is available in the [`cpu_baseline`](main.cc) method of the `main.cc` file. Use this to understand the underlying logic before parallelizing it!
+
 ## Newbie Guidance
 **Typical CUDA Techniques:** 
 - **Index Arithmetic:** Complex mapping from the flattened 1D thread ID back to the 3D input tensor and 2D output matrix.

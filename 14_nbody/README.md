@@ -17,6 +17,10 @@
 - *Fast N-Body Simulation with CUDA* in GPU Gems 3 (Chapter 31)
 - *Programming Massively Parallel Processors* (Chapter: N-Body Methods)
 
+
+> [!TIP]
+> **CPU Baseline:** A reference CPU implementation is available in the [`cpu_baseline`](main.cc) method of the `main.cc` file. Use this to understand the underlying logic before parallelizing it!
+
 ## Newbie Guidance
 **Typical CUDA Techniques:**
 - **Shared Memory Tiling:** The cornerstone of N-body. Because every body interacts with every other body, you load a tile of $T$ bodies into shared memory. All threads in the block compute gravitational forces against this tile. Then the block loads the next tile. This turns $O(N^2)$ global memory reads into $O(N^2 / T)$ reads.

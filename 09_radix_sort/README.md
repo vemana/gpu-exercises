@@ -15,6 +15,10 @@
 - *Programming Massively Parallel Processors* (Chapter: Parallel Patterns: Radix Sort)
 - *Designing Efficient Sorting Algorithms for Manycore GPUs* by Nadathur Satish et al.
 
+
+> [!TIP]
+> **CPU Baseline:** A reference CPU implementation is available in the [`cpu_baseline`](main.cc) method of the `main.cc` file. Use this to understand the underlying logic before parallelizing it!
+
 ## Newbie Guidance
 **Typical CUDA Techniques:**
 - **Multi-bit Radix (Radix-4 or Radix-8):** Sorting 1 bit at a time requires 32 passes for an integer. Sorting 4 bits at a time (16 bins) requires only 8 passes. You compute a local histogram of the 4 bits in shared memory, prefix-sum it to find offsets, and scatter locally.

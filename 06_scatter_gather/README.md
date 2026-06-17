@@ -16,6 +16,10 @@
 - *Programming Massively Parallel Processors* (Chapter: Sparse Matrix Computation)
 - [Wikipedia: Gather-scatter (vector addressing)](https://en.wikipedia.org/wiki/Gather-scatter_(vector_addressing))
 
+
+> [!TIP]
+> **CPU Baseline:** A reference CPU implementation is available in the [`cpu_baseline`](main.cc) method of the `main.cc` file. Use this to understand the underlying logic before parallelizing it!
+
 ## Newbie Guidance
 **Typical CUDA Techniques:**
 - **L1/L2 Caching:** Gather operations rely entirely on the GPU's cache hierarchy to perform well, as accesses are non-coalesced. If the indices exhibit temporal or spatial locality, the L2 cache is your best friend.

@@ -9,6 +9,10 @@
 
 **Practical Importance:** Essential for preventing overfitting in large neural networks during training. Implementing dropout efficiently on the GPU requires fast pseudorandom number generation (PRNG).
 
+
+> [!TIP]
+> **CPU Baseline:** A reference CPU implementation is available in the [`cpu_baseline`](main.cc) method of the `main.cc` file. Use this to understand the underlying logic before parallelizing it!
+
 ## Newbie Guidance
 **Typical CUDA Techniques:** 
 - **GPU PRNG:** Generating random numbers on the GPU. We use a simple deterministic PCG Hash to avoid state-keeping overhead and ensure perfectly reproducible testing.

@@ -11,6 +11,10 @@
 
 **Practical Importance:** Flash Attention revolutionized Transformer context lengths. By fusing the matrix multiplications and the softmax, and tiling the computation to fit in SRAM (shared memory), it changes attention from memory-bandwidth-bound to compute-bound.
 
+
+> [!TIP]
+> **CPU Baseline:** A reference CPU implementation is available in the [`cpu_baseline`](main.cc) method of the `main.cc` file. Use this to understand the underlying logic before parallelizing it!
+
 ## Newbie Guidance
 **Typical CUDA Techniques:** 
 - **Kernel Fusion:** Combine GEMM, Softmax, and another GEMM into a single kernel.

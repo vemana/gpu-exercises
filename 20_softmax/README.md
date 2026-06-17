@@ -9,6 +9,10 @@
 
 **Practical Importance:** Softmax is ubiquitous in machine learning, used in the final layer for classification and within the attention mechanism of Transformers. It is heavily memory-bound due to the multiple passes typically required.
 
+
+> [!TIP]
+> **CPU Baseline:** A reference CPU implementation is available in the [`cpu_baseline`](main.cc) method of the `main.cc` file. Use this to understand the underlying logic before parallelizing it!
+
 ## Newbie Guidance
 **Typical CUDA Techniques:** 
 - **Safe Softmax:** Always subtract the maximum value to prevent overflow during the exponential step.
