@@ -1,0 +1,17 @@
+
+---- Use as reminder----
+For each exercise,
+(1) Follow IWYU pattern but keep it lightweight by including the self-header first.
+(2) In each exercise's README.md, comment generously in the following sections:
+   (a) Newbie Guidance. Be extremely generous here. It can be daunting otherwise. Pave the onramp.
+   (b) References. Include a fair few papers/book chapters but order them by importance.
+   (c) Practical Importance. Be motivating and exciting for young students here.
+   (d) Historical anecdotes. Be captivating with your narration here.
+   (e) The problem definition
+(3) Provide a concrete sample input output with actual numbers in the `Sample Input/Output` section of README.md.
+(4) Leave student kernel unimplemented with a TODO
+(5) Comment the reference kernel and the cpu kernel implementation liberally
+
+Before you complete your work
+(1) update the top level README.md with any newly added exercises
+(2) Ensure all tests pass with the `--test_ref_kernel_only` flag
